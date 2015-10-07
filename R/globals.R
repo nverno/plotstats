@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Thu Aug 13 19:57:04 2015 (-0400)
-## Last-Updated: Mon Oct  5 14:20:32 2015 (-0400)
+## Last-Updated: Wed Oct  7 16:31:32 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -29,4 +29,4 @@ require(devtools)  # install_github
 ##                              Plotting stuff
 ##
 ################################################################################
-defaults <- theme_bw()
+defaults <- list(theme_bw(), scale_fill_brewer(palette='Spectral'))
