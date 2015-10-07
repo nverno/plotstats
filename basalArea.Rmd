@@ -1,0 +1,65 @@
+---
+title: "Basal Area"
+date: "Generated: `r Sys.Date()`"
+runtime: shiny
+output:
+    html_document:
+        toc: true
+        toc_depth: 3
+        theme: spacelab
+        highlight: zenburn
+        number_sections: false
+---
+
+```{r global_opts, include=FALSE}
+
+knitr::opts_chunk$set(fig.path="Figs", echo=FALSE, warning=FALSE,
+                      message=FALSE, dev='svg')
+
+```
+
+```{r setup}
+
+source("R/setup.R", chdir=TRUE)
+
+```
+
+## Transects: barplots for DBH by size class
+Trees with status == DEAD are removed.  Should the counts be per unit area as Lixi did?
+
+* Interactive options:
+    - Subset: transect, plot, elevational range, combine transects, east/west options
+	- Split by year
+	- Keep species colors constant?
+
+
+```{r transect_barplot}
+
+dat <- with(tp, tp[TRAN == 'E320' & TPLOT == 1 & STAT == 'ALIVE',])
+dat$breaks <- cut(dat$DBH, breaks=seq(5, max(dat$DBH, na.rm=TRUE)+5, by=5), include.lowest=TRUE)
+ggplot(dat, aes(breaks, fill=SPEC)) + geom_bar() + facet_grid(~YEAR) +
+  scale_x_discrete(drop=FALSE) +
+  scale_fill_brewer(palette='Spectral') + defaults
+
+
+```
+
+## Permanent Plots: barplots stacked by species, split by years
+Show area in each segment and the total area above each bar.  Ignore additional spruce.  Use only trees >= 5cm DBH to compare across years.
+
+* Interactive options:
+    - Subset: Plot, soil type
+	- Labels: show or not?
+	- Maybe better: two graphs, one line/species, one bars for totals
+
+```{r pp_barplot}
+
+pdat <- with(pp, pp[PPLOT == 4 & STAT=='ALIVE' & CLASS == 'P' & DBH >= 5 & BQUDX > 0 & BQUDX < 11 &
+                    BQUDY > 0 & BQUDY < 11, ])
+
+ba <- aggregate(BA ~ SPEC + YEAR, data=pdat, FUN=sum)
+
+ggplot(ba, aes(x=YEAR, y=BA, fill = SPEC)) + geom_bar(stat='identity', color='black') + defaults +
+  scale_fill_brewer(palette='Spectral')
+
+```
