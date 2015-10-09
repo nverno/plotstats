@@ -3,10 +3,11 @@
 ## Description: subset by transect, plot#, elev range, elev class, aspect
 ## Author: Noah Peart
 ## Created: Wed Oct  7 16:40:06 2015 (-0400)
-## Last-Updated: Wed Oct  7 20:47:26 2015 (-0400)
+## Last-Updated: Thu Oct  8 15:49:02 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 buttonSeparator <- hr(style="margin-top: 0.2em; margin-bottom: 0.2em;")
+tp <- tp
 
 ################################################################################
 ##
@@ -14,11 +15,12 @@ buttonSeparator <- hr(style="margin-top: 0.2em; margin-bottom: 0.2em;")
 ##
 ################################################################################
 ## Plot selection: by elevation range, elevation class, or checkbox
-eRange <- range(tp$ELEV, na.rm=TRUE)
-selElevRange <- sliderInput('tElevRange', 'Elevation Range:', min=eRange[[1]], max=eRange[[2]], value=eRange)
-selElevClass <- checkboxGroupInput("tElevClass", "Elevation Class:",
+tpERange <- range(tp$ELEV, na.rm=TRUE)
+tpSelElevRange <- sliderInput('tElevRange', 'Elevation Range:', min=tpERange[[1]], max=tpERange[[2]],
+                            value=tpERange)
+tpSelElevClass <- checkboxGroupInput("tElevClass", "Elevation Class:",
                                    choices=levels(tp$ELEVCL), selected=levels(tp$ELEVCL))
-selTPlotCheck <- checkboxGroupInput("tPlot", "Plot:", choices=sort(unique(tp$TPLOT)),
+tpSelTPlotCheck <- checkboxGroupInput("tPlot", "Plot:", choices=sort(unique(tp$TPLOT)),
                                     selected=unique(tp$TPLOT), inline=TRUE)
 
 output$transectChooser <- renderUI({
@@ -47,14 +49,14 @@ output$transectChooser <- renderUI({
                             radioButtons('tElevType', 'Elevation:', choices=c('range', 'class'), inline=TRUE),
                             conditionalPanel(
                                 condition = "input.tElevType == 'range'",
-                                selElevRange),
+                                tpSelElevRange),
                             conditionalPanel(
                                 condition = "input.tElevType == 'class'",
-                                selElevClass
+                                tpSelElevClass
                             )),
 
                      ## Select plots by checkbox
-                     column(width=2, class="tChooserRow1 colEven", selTPlotCheck)
+                     column(width=2, class="tChooserRow1 colEven", tpSelTPlotCheck)
                      ),
             hr(),
             fluidRow(actionButton("tSubset", "Make Subset") ),

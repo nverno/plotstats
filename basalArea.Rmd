@@ -67,3 +67,10 @@ ggplot(ba, aes(x=YEAR, y=BA, fill = SPEC)) + geom_bar(stat='identity', color='bl
   scale_fill_brewer(palette='Spectral')
 
 ```
+
+```{r test}
+
+source("R/subset.R", local=TRUE)
+uiOutput("chooser")
+
+```
