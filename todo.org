@@ -1,0 +1,8 @@
+# basalArea.Rmd
+- Ensure species are always filled the same, currently levels are dropped in subsetting
+- Add feature to combine plots/years
+- Make basal area stacked plot interactive
+- Add line graph option to show changing area
+- optional: googleVis for interactive line graph
+  
+  

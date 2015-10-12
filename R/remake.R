@@ -3,7 +3,7 @@
 ## Description: Remake datasets for analysis
 ## Author: Noah Peart
 ## Created: Thu Aug 13 19:58:42 2015 (-0400)
-## Last-Updated: Tue Oct  6 13:01:47 2015 (-0400)
+## Last-Updated: Fri Oct  9 18:11:52 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -190,6 +190,10 @@ dat$YEAR <- factor(dat$YEAR)
 
 tp <- dat[!is.na(dat$DBH) | !is.na(dat$HT) | !is.na(dat$HTOBS), ]
 tp$BA <- 0.00007854*tp$DBH*tp$DBH
+
+## Reorder levels
+tp$ELEVCL <- factor(tp$ELEVCL, levels = c("L", "LL", "M", "H", "HH", ""))
+tp$YEAR <- factor(tp$YEAR, levels = c('87', '98', '99', '10', '11'))
 
 ## Polar -> cartesian
 coords <- pol2cart(tp$DIST, (tp$HR%%12)/12 * 2*pi + pi/2)

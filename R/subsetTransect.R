@@ -3,7 +3,7 @@
 ## Description: subset by transect, plot#, elev range, elev class, aspect
 ## Author: Noah Peart
 ## Created: Wed Oct  7 16:40:06 2015 (-0400)
-## Last-Updated: Thu Oct  8 15:49:02 2015 (-0400)
+## Last-Updated: Mon Oct 12 04:52:21 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 buttonSeparator <- hr(style="margin-top: 0.2em; margin-bottom: 0.2em;")
@@ -11,17 +11,33 @@ tp <- tp
 
 ################################################################################
 ##
+##                         Summaries for subsetting
+##
+################################################################################
+## Use this to speed up the interactive interface so it doesn't need to work
+## with the whole dataset.
+##
+## Info should include: transect, plot number, elevation (class/value),
+## aspect (class/value), year
+tpAgg <- aggregate(TPLOT ~ TRAN + ELEV + ELEVCL + ASP + ASPCL + YEAR, FUN=unique, data=tp)
+tpAgg <- with(tpAgg, tpAgg[order(TRAN, TPLOT, YEAR), ])
+
+## This data summary is what will be updated after subsetting options are selected
+tpVals <- reactiveValues(agg = tpAgg, dat = tp)
+
+################################################################################
+##
 ##                            Transect Selections
 ##
 ################################################################################
 ## Plot selection: by elevation range, elevation class, or checkbox
-tpERange <- range(tp$ELEV, na.rm=TRUE)
+tpERange <- range(tpAgg$ELEV, na.rm=TRUE)
 tpSelElevRange <- sliderInput('tElevRange', 'Elevation Range:', min=tpERange[[1]], max=tpERange[[2]],
                             value=tpERange)
 tpSelElevClass <- checkboxGroupInput("tElevClass", "Elevation Class:",
-                                   choices=levels(tp$ELEVCL), selected=levels(tp$ELEVCL))
-tpSelTPlotCheck <- checkboxGroupInput("tPlot", "Plot:", choices=sort(unique(tp$TPLOT)),
-                                    selected=unique(tp$TPLOT), inline=TRUE)
+                                   choices=levels(tpAgg$ELEVCL), selected=levels(tpAgg$ELEVCL))
+tpSelTPlotCheck <- checkboxGroupInput("tPlot", "Plot:", choices=sort(unique(tpAgg$TPLOT)),
+                                    selected=unique(tpAgg$TPLOT), inline=TRUE)
 
 output$transectChooser <- renderUI({
     div(id = "transectChooser",
@@ -34,6 +50,8 @@ output$transectChooser <- renderUI({
                             buttonSeparator,
                             actionButton("noTransects", "None", style="width:100px"),
                             buttonSeparator,
+                            actionButton("tpReset", "Reset", style="width:100px"),
+                            buttonSeparator,
                             helpText('Aspect:'),
                             actionButton("eastTransects", "East", style="width:100px"),
                             buttonSeparator,
@@ -41,11 +59,11 @@ output$transectChooser <- renderUI({
 
                      ## Select transects
                      column(width=2, class="tChooserRow1 colOdd",
-                            checkboxGroupInput("transect", "Transects:", choices=levels(tp$TRAN),
-                                               selected=levels(tp$TRAN))),
+                            checkboxGroupInput("transect", "Transects:", choices=levels(tpAgg$TRAN),
+                                               selected=levels(tpAgg$TRAN))),
 
                      ## Select plots by elevation
-                     column(width=2, class="tChooserRow1 colOdd",
+                     column(width=2, class="tChooserRow1 colEven",
                             radioButtons('tElevType', 'Elevation:', choices=c('range', 'class'), inline=TRUE),
                             conditionalPanel(
                                 condition = "input.tElevType == 'range'",
@@ -56,7 +74,7 @@ output$transectChooser <- renderUI({
                             )),
 
                      ## Select plots by checkbox
-                     column(width=2, class="tChooserRow1 colEven", tpSelTPlotCheck)
+                     column(width=2, class="tChooserRow1 colOdd", tpSelTPlotCheck)
                      ),
             hr(),
             fluidRow(actionButton("tSubset", "Make Subset") ),
@@ -76,50 +94,76 @@ output$transectChooser <- renderUI({
 ################################################################################
 ## Buttons
 observeEvent(input$allTransects,
-             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tp$TRAN),
-                                          selected = levels(tp$TRAN))
+             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tpAgg$TRAN),
+                                          selected = levels(tpAgg$TRAN))
              )
 
 observeEvent(input$noTransects,
-             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tp$TRAN),
+             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tpAgg$TRAN),
                                       selected = NULL)
              )
 
+observeEvent(input$tpReset, {
+    updateCheckboxGroupInput(session, inputId='transect',
+                             choices = levels(tpAgg$TRAN),
+                             selected = levels(tpAgg$TRAN))
+    updateCheckboxGroupInput(session, inputId='tElevClass',
+                             selected = levels(tpAgg$ELEVCL), inline=TRUE)
+    updateSliderInput(session, inputId='tElevRange',
+                      min=tpERange[1], max=tpERange[2], value = tpERange)
+    ## updateCheckboxGroupInput(session, inputId='tPlot',
+    ##                          choices = sort(unique(tpAgg$TPLOT)),
+    ##                          selected=unique(tpAgg$TPLOT), inline=TRUE)
+})
+
 observeEvent(input$eastTransects,
-             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tp$TRAN),
-                                      selected = c(input$transect, grep("^E", levels(tp$TRAN), value=TRUE)))
+             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tpAgg$TRAN),
+                                      selected = c(input$transect, grep("^E", levels(tpAgg$TRAN), value=TRUE)))
              )
 
 observeEvent(input$westTransects,
-             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tp$TRAN),
-                                      selected = c(input$transect, grep("^W", levels(tp$TRAN), value=TRUE)))
+             updateCheckboxGroupInput(session, inputId='transect', choices=levels(tpAgg$TRAN),
+                                      selected = c(input$transect, grep("^W", levels(tpAgg$TRAN), value=TRUE)))
              )
 
 ## Plots (respond to changes in transect/elevation)
 observe({
     if (!is.null(input$tElevType)) {
         elev <- if (input$tElevType == 'range') {
-            tp$ELEV >= input$tElevRange[1] & tp$ELEV <= input$tElevRange[2]
-        } else tp$ELEVCL %in% input$tElevClass
+            tpAgg$ELEV >= input$tElevRange[1] & tpAgg$ELEV <= input$tElevRange[2]
+        } else tpAgg$ELEVCL %in% input$tElevClass
 
-        ps <- sort(unique(tp$TPLOT[tp$TRAN %in% input$transect & elev]))
-        isolate(
-            updateCheckboxGroupInput(session, inputId='tPlot', choices=ps, selected=paste(ps), inline=TRUE)
-        )
+        ps <- sort(unique(tpAgg$TPLOT[tpAgg$TRAN %in% input$transect & elev]))
+        print(ps)
+        isolate({
+            if (length(ps) < 1)
+                updateCheckboxGroupInput(session, inputId='tPlot',
+                                         choices='None', selected='None', inline=TRUE)
+            else
+                updateCheckboxGroupInput(session, inputId='tPlot',
+                                         choices=ps, selected=paste(ps), inline=TRUE)
+        })
     }
 })
 
 ################################################################################
 ##
-##                               Create Subset
+##                           Create Main Subset
 ##
 ################################################################################
-dat <- reactive({
-    if (!is.null(input$tSubset) && input$tSubset > 0) {
-        isolate(droplevels(with(tp, tp[TRAN %in% input$transect &
-                                         TPLOT %in% input$tPlot, ])))
-    } else tp
+## Update tpVals with user choices
+observeEvent(input$tSubset, {
+    isolate({
+        tpVals$agg <- with(tpVals$agg, tpVals$agg[TRAN %in% input$transect &
+                                                    TPLOT %in% input$tPlot, ])
+        tpVals$dat <- droplevels(with(tp, tp[TRAN %in% input$transect &
+                                               TPLOT %in% input$tPlot, ]),
+                                 except = 'SPEC')
+    })
 })
+
+## This is temporary for backwards compatability
+dat <- reactive(tpVals$dat)
 
 output$tSubText <- reactive({
     if (!is.null(input$tSubset) && input$tSubset > 0) {
@@ -137,3 +181,122 @@ output$tSubText <- reactive({
         })
     } else "Not Subsetted"
 })
+
+################################################################################
+##
+##                    Create Transect subsetting options
+##
+################################################################################
+## Creates an interface to subset the transect data
+##
+## Options: Transect, Elevation, Aspect, plot per Transect
+
+## Initial Framework with Transect options
+## Render this in a sidebar, for example, with `uiOutput('tpSubset')`
+## Note: to switch labels to be inline with options, the css for shiny-options-group
+## needs to be changed, ie. .shiny-options-group{display: inline;}, but that changes all
+## them
+output$tpSubset <- renderUI({
+    list(
+        radioButtons('tpSideShow', label='Subset Data:', choices=c('show', 'hide'), inline=TRUE),
+        conditionalPanel(
+            condition = "input.tpSideShow == 'show'",
+            uiOutput('tpSubsetOptions')
+        ),
+        hr()
+    )
+})
+
+output$tpSubsetOptions <- renderUI({
+    samp <- tpVals$dat
+    eRange <- range(samp$ELEV, na.rm=TRUE)
+
+    list(
+        checkboxGroupInput('tpSideTran', 'Transect:', choices=levels(samp$TRAN),
+                           selected=NULL, inline=TRUE),
+
+        ## Aspect
+        checkboxGroupInput('tpSideAsp', 'Aspect:',
+                           choices = levels(samp$ASPCL), inline=TRUE),
+        
+        ## Elevation
+        radioButtons('tpSideElevType', 'Elevation:', choices=c('range', 'class'), inline=TRUE),
+        conditionalPanel(
+            condition = "input.tpSideElevType == 'range'",
+            sliderInput('tpSideElevRange', 'Elevation Range:',
+                        min = eRange[1], max=eRange[2], value = eRange)
+        ),
+        conditionalPanel(
+            condition = "input.tpSideElevType == 'class'",
+            checkboxGroupInput('tpSideElevClass', 'Elevation Class:',
+                               choices = levels(samp$ELEVCL), selected=levels(samp$ELEVCL), inline=TRUE)
+        ),
+        
+        ## TPLOTs
+        radioButtons('tpSideShowTPlot', 'Show Transect Plots:', choices=c('show', 'hide'), inline=TRUE),
+        conditionalPanel(
+            condition = "input.tpSideShowTPlot == 'show'",
+            uiOutput('tplotChecks')
+        )
+    )
+})
+
+## Create checkbox input for the TPLOT separately for each TRAN in dat()
+## usage: uiOutput('tplotChecks')
+## Note: would be nice to have these side by side vertically
+output$tplotChecks <- renderUI({
+    lapply(input$tpSideTran, function(x) {
+        name <- sprintf('tpTran%sTPlot', paste(x))
+        sel <- if (x %in% input$tpSideTran) input[[name]] else NULL
+        checkboxGroupInput(sprintf('tpTran%sTPlot', paste(x)),
+                           paste0(x,':'),
+                           choices = tpVals$tplots[[x]], selected = sel, inline=TRUE)
+    })
+})
+
+################################################################################
+##
+##                           Observers for sidebar
+##
+################################################################################
+## Helpers to check groups of transects by aspect
+observeEvent(input$tpSideAsp,
+             updateCheckboxGroupInput(
+                 session,
+                 inputId = 'tpSideTran',
+                 selected=levels(droplevels(tpVals$agg$TRAN[tpVals$agg$ASPCL %in% input$tpSideAsp])),
+                 inline=TRUE
+             ), ignoreNULL = FALSE)
+
+## Only show plots available for each transect for elevation ranges/classes
+## Creates a reactive value, 'tplots', that is used to make the interface
+observe({
+    ## The first null check ensures there is no initial error (before interface is rendered)
+    if (!is.null(input$tpSideElevType)) {
+        with(tpVals$agg, {
+            elev <- if (input$tpSideElevType == 'range') {
+                ELEV >= input$tpSideElevRange[1] & ELEV <= input$tpSideElevRange[2]
+            } else ELEVCL %in% input$tpSideElevClass
+
+            inds <- elev & TRAN %in% input$tpSideTran
+            isolate(
+                tpVals$tplots <- lapply(split(TPLOT[inds], TRAN[inds]), unique)
+            )
+        })
+    }
+})
+
+################################################################################
+##
+##                          Data from Sidebar Input
+##
+################################################################################
+tpDat <- reactive({
+    inds <- with(tpVals$dat, {
+        Reduce('|', lapply(input$tpSideTran, function(x)
+            TRAN == x & TPLOT %in% input[[sprintf('tpTran%sTPlot', paste(x))]]))
+    })
+    print(sum(inds))
+    tpVals$dat[inds,]
+})
+

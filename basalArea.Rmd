@@ -45,6 +45,7 @@ Note: counts are not per unit area yet, what was the radius for regular transect
 source("R/barplotSizeClass.R", local=TRUE)
 
 uiOutput('barSizeClassUI')
+## uiOutput('tpSideTran')
 
 ```
 

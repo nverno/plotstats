@@ -3,7 +3,7 @@
 ## Description: DBH classes barplots (stacked by species)
 ## Author: Noah Peart
 ## Created: Wed Oct  7 20:19:49 2015 (-0400)
-## Last-Updated: Wed Oct  7 21:02:17 2015 (-0400)
+## Last-Updated: Mon Oct 12 03:54:09 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## variable prefix: 'bsc' ==> barSizeClass
@@ -15,13 +15,9 @@
 ##   scale_fill_brewer(palette='Spectral') + defaults
 
 output$barSizeClassUI <- renderUI({
-    ps <- sort(unique(dat()$TPLOT))
-    
     sidebarLayout(
         sidebarPanel(
-            checkboxGroupInput('bscTransect', 'Transect:', choices=levels(dat()$TRAN),
-                               selected=levels(dat()$TRAN)[1], inline=TRUE),
-            checkboxGroupInput('bscTPlot', 'Plot:', choices=ps, selected=ps[[1]], inline=TRUE),
+            uiOutput('tpSubset'),
             numericInput('bscWidth', 'Width of DBH classes', value=5, min=0)
         ),
         mainPanel(
@@ -30,22 +26,24 @@ output$barSizeClassUI <- renderUI({
     )
 })
 
-observeEvent(input$bscTransect, {
-    ops <- sort(unique(dat()$TPLOT[dat()$TRAN %in% input$bscTransect]))
-    updateCheckboxGroupInput(session, 'bscTPlot', choices=ops, selected=ops[[1]], inline=TRUE)
-})
+## observeEvent(input$bscTransect, {
+##     ops <- sort(unique(dat()$TPLOT[dat()$TRAN %in% input$bscTransect]))
+##     updateCheckboxGroupInput(session, 'bscTPlot', choices=ops, selected=ops[[1]], inline=TRUE)
+## })
 
 ## Reactives
 bscDat <- reactive({
-    samp <- dat()
+    samp <- tpDat()
+    if (nrow(samp) < 1) return()
     samp$breaks <- cut(samp$DBH,
                        breaks=seq(5, max(samp$DBH, na.rm=TRUE)+input$bscWidth, by=input$bscWidth),
                        include.lowest=TRUE)
-    samp[samp$STAT == 'ALIVE' & samp$TRAN %in% input$bscTransect & samp$TPLOT %in% input$bscTPlot, ]
+    samp[samp$STAT == 'ALIVE', ]
 })
 
 ## Graphics
 barSizeClass <- renderPlot({
+    if (is.null(bscDat())) return()
     ggplot(bscDat(), aes(breaks, fill=SPEC)) +
       geom_bar() +
       facet_grid(TPLOT~YEAR) +
