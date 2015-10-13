@@ -3,7 +3,7 @@
 ## Description: DBH classes barplots (stacked by species)
 ## Author: Noah Peart
 ## Created: Wed Oct  7 20:19:49 2015 (-0400)
-## Last-Updated: Mon Oct 12 03:54:09 2015 (-0400)
+## Last-Updated: Mon Oct 12 21:20:22 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## variable prefix: 'bsc' ==> barSizeClass

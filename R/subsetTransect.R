@@ -3,10 +3,10 @@
 ## Description: subset by transect, plot#, elev range, elev class, aspect
 ## Author: Noah Peart
 ## Created: Wed Oct  7 16:40:06 2015 (-0400)
-## Last-Updated: Mon Oct 12 04:52:21 2015 (-0400)
+## Last-Updated: Tue Oct 13 02:59:43 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
-buttonSeparator <- hr(style="margin-top: 0.2em; margin-bottom: 0.2em;")
+source("widgets.R")
 tp <- tp
 
 ################################################################################
@@ -198,19 +198,34 @@ output$tSubText <- reactive({
 ## them
 output$tpSubset <- renderUI({
     list(
-        radioButtons('tpSideShow', label='Subset Data:', choices=c('show', 'hide'), inline=TRUE),
+        inlineLabel(
+            radioButtons('tpSideShow', label='Subset Data:',
+                         choices=c('show', 'hide'), inline=TRUE), 5
+        ),
         conditionalPanel(
             condition = "input.tpSideShow == 'show'",
             uiOutput('tpSubsetOptions')
         ),
+        conditionalPanel(
+            condition = "input.tpSideShow == 'hide'",
+            uiOutput('tpSubsetSummary')
+        ),
+        hr(),
+        div(align='center',
+            actionButton('tpMake', 'Make Subset', width=100, style='font-size:90%'),
+            actionButton('tpSideReset', 'Reset', width=100, style='font-size:90%')),
         hr()
     )
 })
 
+## Interface with subsetting options
 output$tpSubsetOptions <- renderUI({
+    ## Add dependency on reset button
+    input$tpSideReset
+
     samp <- tpVals$dat
     eRange <- range(samp$ELEV, na.rm=TRUE)
-
+    
     list(
         checkboxGroupInput('tpSideTran', 'Transect:', choices=levels(samp$TRAN),
                            selected=NULL, inline=TRUE),
@@ -233,7 +248,10 @@ output$tpSubsetOptions <- renderUI({
         ),
         
         ## TPLOTs
-        radioButtons('tpSideShowTPlot', 'Show Transect Plots:', choices=c('show', 'hide'), inline=TRUE),
+        hr(),
+        inlineLabel(
+            radioButtons('tpSideShowTPlot', 'Transect Plots:',
+                         choices=c('show', 'hide'), inline=TRUE), 5),
         conditionalPanel(
             condition = "input.tpSideShowTPlot == 'show'",
             uiOutput('tplotChecks')
@@ -250,8 +268,43 @@ output$tplotChecks <- renderUI({
         sel <- if (x %in% input$tpSideTran) input[[name]] else NULL
         checkboxGroupInput(sprintf('tpTran%sTPlot', paste(x)),
                            paste0(x,':'),
-                           choices = tpVals$tplots[[x]], selected = sel, inline=TRUE)
+                           choices = tpVals$tplots[[x]], selected = input[[name]], inline=TRUE)
     })
+})
+
+## Display a summary of the chosen options when the subsetting interface is
+## hidden
+output$tpSubsetSummary <- renderUI({
+    ## Add dependency on reset button
+    input$tpSideReset
+
+    elev <- if (input$tpSideElevType == 'range') {
+        paste(input$tpSideElevRange, collapse="-")
+    } else paste(input$tpSideElevClass, collapse=", ")
+
+    ## Only summarize transects that have plots selected
+    inds <- sapply(input$tpSideTran, function(x) length(input[[sprintf("tpTran%sTPlot", x)]])>0)
+    trans <- input$tpSideTran[inds]
+    if (length(trans) < 1) return(helpText('No plots selected.'))
+    
+    list(
+        helpText('This is a summary of the selected options.'),
+        HTML(c(
+            '<p><span style="font-weight:bold;">Selected</span>:',
+            '<ul>',
+            paste0(
+                '<li>',
+                lapply(trans, function(x)
+                    sprintf('<span style="font-weight:500;">%s</span> [ %s ]',
+                            paste(x),
+                            paste(input[[sprintf("tpTran%sTPlot", x)]], collapse=','))),
+                '</li>'
+            ),
+            '</ul>',
+            '<span style="font-weight:bold;">Elevation</span>: ', elev,        
+            '</p>'
+        ))
+    )
 })
 
 ################################################################################
@@ -267,6 +320,9 @@ observeEvent(input$tpSideAsp,
                  selected=levels(droplevels(tpVals$agg$TRAN[tpVals$agg$ASPCL %in% input$tpSideAsp])),
                  inline=TRUE
              ), ignoreNULL = FALSE)
+
+## 
+
 
 ## Only show plots available for each transect for elevation ranges/classes
 ## Creates a reactive value, 'tplots', that is used to make the interface
@@ -291,12 +347,15 @@ observe({
 ##                          Data from Sidebar Input
 ##
 ################################################################################
+## Update data in response to 'tpMake' button
 tpDat <- reactive({
-    inds <- with(tpVals$dat, {
-        Reduce('|', lapply(input$tpSideTran, function(x)
-            TRAN == x & TPLOT %in% input[[sprintf('tpTran%sTPlot', paste(x))]]))
+    input$tpMake
+    isolate({
+        inds <- with(tpVals$dat, {
+            Reduce('|', lapply(input$tpSideTran, function(x)
+                TRAN == x & TPLOT %in% input[[sprintf('tpTran%sTPlot', paste(x))]]))
+        })
+        tpVals$dat[inds,]
     })
-    print(sum(inds))
-    tpVals$dat[inds,]
 })
 

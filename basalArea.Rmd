@@ -30,7 +30,7 @@ source("R/setup.R", chdir=TRUE)
 # Subset
 ```{r subset}
 
-source("R/subsetTransect.R", local=TRUE)
+source("R/subsetTransect.R", local=TRUE, chdir=TRUE)
 uiOutput('transectChooser')
 verbatimTextOutput('tSubText')
 
@@ -40,6 +40,7 @@ verbatimTextOutput('tSubText')
 ## Transects: barplots for DBH by size class
 Trees with status == DEAD are removed.
 Note: counts are not per unit area yet, what was the radius for regular transect plots (it's not entered in variable TRAD)?
+
 ```{r barplot_sizeclass}
 
 source("R/barplotSizeClass.R", local=TRUE)
