@@ -3,7 +3,7 @@
 ## Description: subset by transect, plot#, elev range, elev class, aspect
 ## Author: Noah Peart
 ## Created: Wed Oct  7 16:40:06 2015 (-0400)
-## Last-Updated: Tue Oct 13 02:59:43 2015 (-0400)
+## Last-Updated: Wed Oct 14 18:35:06 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 source("widgets.R")
@@ -23,7 +23,10 @@ tpAgg <- aggregate(TPLOT ~ TRAN + ELEV + ELEVCL + ASP + ASPCL + YEAR, FUN=unique
 tpAgg <- with(tpAgg, tpAgg[order(TRAN, TPLOT, YEAR), ])
 
 ## This data summary is what will be updated after subsetting options are selected
-tpVals <- reactiveValues(agg = tpAgg, dat = tp)
+tpVals <- reactiveValues(
+    agg = tpAgg,
+    dat = tp
+)
 
 ################################################################################
 ##
@@ -134,7 +137,6 @@ observe({
         } else tpAgg$ELEVCL %in% input$tElevClass
 
         ps <- sort(unique(tpAgg$TPLOT[tpAgg$TRAN %in% input$transect & elev]))
-        print(ps)
         isolate({
             if (length(ps) < 1)
                 updateCheckboxGroupInput(session, inputId='tPlot',
@@ -161,9 +163,6 @@ observeEvent(input$tSubset, {
                                  except = 'SPEC')
     })
 })
-
-## This is temporary for backwards compatability
-dat <- reactive(tpVals$dat)
 
 output$tSubText <- reactive({
     if (!is.null(input$tSubset) && input$tSubset > 0) {
@@ -202,14 +201,15 @@ output$tpSubset <- renderUI({
             radioButtons('tpSideShow', label='Subset Data:',
                          choices=c('show', 'hide'), inline=TRUE), 5
         ),
-        conditionalPanel(
-            condition = "input.tpSideShow == 'show'",
-            uiOutput('tpSubsetOptions')
-        ),
-        conditionalPanel(
-            condition = "input.tpSideShow == 'hide'",
-            uiOutput('tpSubsetSummary')
-        ),
+        div(id = if (is.null(input$tpSideReset)) "a" else paste(input$tpSideReset),
+            conditionalPanel(
+                condition = "input.tpSideShow == 'show'",
+                uiOutput('tpSubsetOptions')
+            ),
+            conditionalPanel(
+                condition = "input.tpSideShow == 'hide'",
+                uiOutput('tpSubsetSummary')
+            )),
         hr(),
         div(align='center',
             actionButton('tpMake', 'Make Subset', width=100, style='font-size:90%'),
@@ -220,9 +220,6 @@ output$tpSubset <- renderUI({
 
 ## Interface with subsetting options
 output$tpSubsetOptions <- renderUI({
-    ## Add dependency on reset button
-    input$tpSideReset
-
     samp <- tpVals$dat
     eRange <- range(samp$ELEV, na.rm=TRUE)
     
@@ -266,18 +263,16 @@ output$tplotChecks <- renderUI({
     lapply(input$tpSideTran, function(x) {
         name <- sprintf('tpTran%sTPlot', paste(x))
         sel <- if (x %in% input$tpSideTran) input[[name]] else NULL
-        checkboxGroupInput(sprintf('tpTran%sTPlot', paste(x)),
+        checkboxGroupInput(name,
                            paste0(x,':'),
-                           choices = tpVals$tplots[[x]], selected = input[[name]], inline=TRUE)
+                           choices = tpVals$tplots[[x]],
+                           selected = sel, inline=TRUE)
     })
 })
 
 ## Display a summary of the chosen options when the subsetting interface is
 ## hidden
 output$tpSubsetSummary <- renderUI({
-    ## Add dependency on reset button
-    input$tpSideReset
-
     elev <- if (input$tpSideElevType == 'range') {
         paste(input$tpSideElevRange, collapse="-")
     } else paste(input$tpSideElevClass, collapse=", ")
@@ -321,25 +316,31 @@ observeEvent(input$tpSideAsp,
                  inline=TRUE
              ), ignoreNULL = FALSE)
 
-## 
-
+## Deselect TPLOT boxes when TRAN is unselected
+observeEvent(input$tpSideReset, tpVals$tplots <- NULL)
 
 ## Only show plots available for each transect for elevation ranges/classes
 ## Creates a reactive value, 'tplots', that is used to make the interface
 observe({
-    ## The first null check ensures there is no initial error (before interface is rendered)
-    if (!is.null(input$tpSideElevType)) {
-        with(tpVals$agg, {
-            elev <- if (input$tpSideElevType == 'range') {
-                ELEV >= input$tpSideElevRange[1] & ELEV <= input$tpSideElevRange[2]
-            } else ELEVCL %in% input$tpSideElevClass
+    input$tpSideTran
+    input$tpSideElevType
+    input$tpSideElevRange
+    input$tpSideElevClass
 
-            inds <- elev & TRAN %in% input$tpSideTran
-            isolate(
+    isolate({
+        ## The first null check ensures there is no initial error (before interface is rendered)
+        if (!is.null(input$tpSideElevType)) {
+            with(tpVals$agg, {
+                elev <- if (input$tpSideElevType == 'range') {
+                    ELEV >= input$tpSideElevRange[1] & ELEV <= input$tpSideElevRange[2]
+                } else ELEVCL %in% input$tpSideElevClass
+
+                inds <- elev & TRAN %in% input$tpSideTran
                 tpVals$tplots <- lapply(split(TPLOT[inds], TRAN[inds]), unique)
-            )
-        })
-    }
+            })
+        }
+        ## print(reactiveValuesToList(input))
+    })
 })
 
 ################################################################################
@@ -359,3 +360,14 @@ tpDat <- reactive({
     })
 })
 
+################################################################################
+##
+##                          Interface as Wellpanel
+##
+################################################################################
+## Wellpanel layout
+output$tpSubsetWellpanel <- renderUI({
+    wellPanel(
+        uiOutput('tpSubset')
+    )
+})

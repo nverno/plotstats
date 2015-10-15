@@ -3,7 +3,7 @@
 ## Description: Remake datasets for analysis
 ## Author: Noah Peart
 ## Created: Thu Aug 13 19:58:42 2015 (-0400)
-## Last-Updated: Fri Oct  9 18:11:52 2015 (-0400)
+## Last-Updated: Wed Oct 14 17:17:58 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -194,6 +194,11 @@ tp$BA <- 0.00007854*tp$DBH*tp$DBH
 ## Reorder levels
 tp$ELEVCL <- factor(tp$ELEVCL, levels = c("L", "LL", "M", "H", "HH", ""))
 tp$YEAR <- factor(tp$YEAR, levels = c('87', '98', '99', '10', '11'))
+
+## Combine factor levels
+levels(tp$SPEC)[levels(tp$SPEC) %in% c('', 'UNCO', 'UNDE', 'UNID')] <- 'UNID'
+levels(tp$SPEC)[grep('^BE', levels(tp$SPEC))] <- 'BESPP'
+tp$SPEC <- factor(tp$SPEC, levels=sort(levels(tp$SPEC)))
 
 ## Polar -> cartesian
 coords <- pol2cart(tp$DIST, (tp$HR%%12)/12 * 2*pi + pi/2)

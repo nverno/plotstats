@@ -3,35 +3,76 @@
 ## Description: DBH classes barplots (stacked by species)
 ## Author: Noah Peart
 ## Created: Wed Oct  7 20:19:49 2015 (-0400)
-## Last-Updated: Mon Oct 12 21:20:22 2015 (-0400)
+## Last-Updated: Wed Oct 14 19:19:23 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## variable prefix: 'bsc' ==> barSizeClass
 
-## dat <- with(tp, tp[TRAN == 'E320' & TPLOT == 1 & STAT == 'ALIVE',])
-## dat$breaks <- cut(dat$DBH, breaks=seq(5, max(dat$DBH, na.rm=TRUE)+5, by=5), include.lowest=TRUE)
-## ggplot(dat, aes(breaks, fill=SPEC)) + geom_bar() + facet_grid(~YEAR) +
-##   scale_x_discrete(drop=FALSE) +
-##   scale_fill_brewer(palette='Spectral') + defaults
-
 output$barSizeClassUI <- renderUI({
-    sidebarLayout(
-        sidebarPanel(
-            uiOutput('tpSubset'),
-            numericInput('bscWidth', 'Width of DBH classes', value=5, min=0)
+    fluidPage(
+        radioButtons('bscLayout', 'Layout:', choices=c('WellPanel', 'Sidebar'), inline=TRUE),
+        conditionalPanel(
+            condition = "input.bscLayout == 'WellPanel'",
+            uiOutput('barSizeClassWellUI')
         ),
-        mainPanel(
-            barSizeClass
+        conditionalPanel(
+            condition = "input.bscLayout == 'Sidebar'",
+            uiOutput('barSizeClassSideUI')
         )
     )
 })
 
-## observeEvent(input$bscTransect, {
-##     ops <- sort(unique(dat()$TPLOT[dat()$TRAN %in% input$bscTransect]))
-##     updateCheckboxGroupInput(session, 'bscTPlot', choices=ops, selected=ops[[1]], inline=TRUE)
-## })
+## Sidebar layout
+output$barSizeClassSideUI <- renderUI({
+    sidebarLayout(
+        sidebarPanel(
+            ## Data subsetting options
+            ## uiOutput('tpSubset'),
 
-## Reactives
+            ## Graphing options
+            uiOutput('barSizeOpts')
+        ),
+        mainPanel(
+            plotOutput('barSizeClass')
+        )
+    )
+})
+
+## Wellpanel Layout
+output$barSizeClassWellUI <- renderUI({
+    fluidRow(
+        column(12, 
+               plotOutput('barSizeClass')
+               )
+    )
+    ## wellPanel(uiOutput('barSizeOpts'))
+})
+
+## Graphing options
+output$barSizeOpts <- renderUI({
+    list(
+        helpText('Graphing Options'),
+        
+        ## Splitting panels
+        uiOutput('tpVisSplit'),
+        
+        ## DBH breaks
+        numericInput('bscWidth', 'Width of DBH classes', value=5, min=0)
+    )
+})
+
+################################################################################
+##
+##                                 Observers
+##
+################################################################################
+             
+################################################################################
+##
+##                                 Reactives
+##
+################################################################################
+## Data
 bscDat <- reactive({
     samp <- tpDat()
     if (nrow(samp) < 1) return()
@@ -41,14 +82,21 @@ bscDat <- reactive({
     samp[samp$STAT == 'ALIVE', ]
 })
 
-## Graphics
-barSizeClass <- renderPlot({
+################################################################################
+##
+##                                 Graphics
+##
+################################################################################
+output$barSizeClass <- renderPlot({
     if (is.null(bscDat())) return()
-    ggplot(bscDat(), aes(breaks, fill=SPEC)) +
-      geom_bar() +
-      facet_grid(TPLOT~YEAR) +
+
+    p <- ggplot(bscDat(), aes(breaks, fill=SPEC)) +
+      geom_bar(color='black') +
       scale_x_discrete(drop=FALSE) + defaults +
       theme(axis.text.x = element_text(angle=60, hjust=1)) +
       ylab("Count") +
       xlab("DBH Size Classes")
+
+    ## Deal with panel splitting
+    p + splitForm()
 })

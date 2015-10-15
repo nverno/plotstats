@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Thu Aug 13 19:57:04 2015 (-0400)
-## Last-Updated: Wed Oct  7 16:31:32 2015 (-0400)
+## Last-Updated: Wed Oct 14 17:16:27 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -23,10 +23,12 @@ require(ggplot2)
 require(grid)      # arrows
 require(shinyjs)   # toggle/show/hid
 require(devtools)  # install_github
+require(RColorBrewer)
 
 ################################################################################
 ##
 ##                              Plotting stuff
 ##
 ################################################################################
-defaults <- list(theme_bw(), scale_fill_brewer(palette='Spectral'))
+mypal <- colorRampPalette(brewer.pal(6, "RdBu"))
+defaults <- list(theme_bw(), scale_fill_brewer(palette='Spectral', drop=FALSE))

@@ -30,9 +30,9 @@ source("R/setup.R", chdir=TRUE)
 # Subset
 ```{r subset}
 
-source("R/subsetTransect.R", local=TRUE, chdir=TRUE)
-uiOutput('transectChooser')
-verbatimTextOutput('tSubText')
+source("R/transectSubset.R", local=TRUE, chdir=TRUE)
+## uiOutput('transectChooser')
+## verbatimTextOutput('tSubText')
 
 
 ```
@@ -42,9 +42,10 @@ Trees with status == DEAD are removed.
 Note: counts are not per unit area yet, what was the radius for regular transect plots (it's not entered in variable TRAD)?
 
 ```{r barplot_sizeclass}
-
+source("R/transectGraph.R", local=TRUE)
 source("R/barplotSizeClass.R", local=TRUE)
 
+uiOutput('tpSubsetWellpanel')
 uiOutput('barSizeClassUI')
 ## uiOutput('tpSideTran')
 
