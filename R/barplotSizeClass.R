@@ -3,7 +3,7 @@
 ## Description: DBH classes barplots (stacked by species)
 ## Author: Noah Peart
 ## Created: Wed Oct  7 20:19:49 2015 (-0400)
-## Last-Updated: Wed Oct 14 19:19:23 2015 (-0400)
+## Last-Updated: Sun Oct 18 19:10:47 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## variable prefix: 'bsc' ==> barSizeClass
@@ -11,6 +11,7 @@
 output$barSizeClassUI <- renderUI({
     fluidPage(
         radioButtons('bscLayout', 'Layout:', choices=c('WellPanel', 'Sidebar'), inline=TRUE),
+        uiOutput('general_ui')
         conditionalPanel(
             condition = "input.bscLayout == 'WellPanel'",
             uiOutput('barSizeClassWellUI')

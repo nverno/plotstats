@@ -22,9 +22,6 @@ knitr::opts_chunk$set(fig.path="Figs/", echo=FALSE, warning=FALSE,
 
 source("R/setup.R", chdir=TRUE)
 
-## DBH class breaks
-## tp$breaks <- cut(tp$DBH, breaks=seq(5, max(tp$DBH, na.rm=TRUE)+5, by=5), include.lowest=TRUE)
-
 ```
 
 # Subset
