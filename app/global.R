@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 21 00:32:08 2015 (-0400)
-## Last-Updated: Fri Oct 23 00:18:11 2015 (-0400)
+## Last-Updated: Fri Oct 23 06:04:30 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -33,6 +33,7 @@ require(grid)      # arrows
 require(RColorBrewer)
 library(ggvis)
 require(DT)
+require(ggmap)
 require(shinythemes)
 ## require(shinyjs)   # toggle/show/hid
 ## require(devtools)  # install_github

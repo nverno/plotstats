@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 13:17:29 2015 (-0400)
-## Last-Updated: Thu Oct 22 22:45:44 2015 (-0400)
+## Last-Updated: Fri Oct 23 05:59:29 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -28,6 +28,25 @@ findData <- function(locs, files) {
             break
     }
     return( list(found=found, missed=files) )
+}
+
+## gather requires/libraries
+findPacks <- function(dirs='.', fnames=NULL, pattern='.*\\.[Rr]+', recursive=TRUE) {
+    files <- list.files(dirs, pattern=pattern, recursive=recursive)
+    if (!is.null(fnames)) files <-
+        unlist(Vectorize(grep, "pattern")(fnames, files, fixed=TRUE, value=TRUE),
+               use.names=FALSE)
+    patt <- paste(paste0(c("require", "library"), "*?\\(([^)]+)\\).*"), collapse="|")
+    reqs <- sapply(files, function(file) {
+        lines <- sub("(^[^#]*).*", "\\1", readLines(file))
+        lines <- lines[length(lines)>0 & lines != ""]
+        unlist(lapply(lines, function(line)
+            regmatches(line, gregexpr(patt, line))))
+    })
+    reqs <- unlist(reqs, use.names = FALSE)
+    reqs <- if(length(reqs)>0) unlist(strsplit(reqs, "\\s+|;"))
+    res <- (s <- sub(".*\\(([^)]+)\\).*", "\\1", reqs))[s!=""]
+    res
 }
 
 ## grep indices ordered by year
