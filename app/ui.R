@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:10:44 2015 (-0400)
-## Last-Updated: Fri Oct 23 00:19:11 2015 (-0400)
+## Last-Updated: Fri Oct 23 06:52:20 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -20,6 +20,8 @@ fluidPage(
         tabPanel('Subset', value="subset"),
         tabPanel('Barplot', value="barplot"),
         tabPanel('Scatterplot', value='scatter'),
+        tabPanel('Map', value='map'),
+        tabPanel('Motion', value='motion'),
         tabPanel('GGvis', value="ggvis")
     ),
     

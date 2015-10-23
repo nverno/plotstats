@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 21 00:32:08 2015 (-0400)
-## Last-Updated: Fri Oct 23 06:04:30 2015 (-0400)
+## Last-Updated: Fri Oct 23 06:54:19 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -12,7 +12,7 @@ dataloc <- c("../data", "data",
 datafiles <- c("pp.csv", "transect.csv")                  # data files
 temploc <- "../data"                                      # where to store temporary data
 
-.debug <- TRUE
+.debug <- FALSE
 
 source("R/widgets.R", chdir = TRUE)
 source("R/utils.R", chdir = TRUE)
@@ -34,6 +34,7 @@ require(RColorBrewer)
 library(ggvis)
 require(DT)
 require(ggmap)
+require(googleVis)
 require(shinythemes)
 ## require(shinyjs)   # toggle/show/hid
 ## require(devtools)  # install_github
