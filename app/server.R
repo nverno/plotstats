@@ -3,35 +3,56 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:15:39 2015 (-0400)
-## Last-Updated: Wed Oct 21 03:29:03 2015 (-0400)
+## Last-Updated: Thu Oct 22 23:05:23 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Testing out partials/controllers separation
 ## https://github.com/jcheng5/shiny-partials/blob/master/server.R
 
-function(input, output, session) {
-    values <- reactiveValues()
-    
-    output$container <- renderUI({
-        if (is.null(input$level1) || is.null(input$level2))
-            return( NULL )
+## Data
+source("R/setup.R", chdir=TRUE)
+pp$key <- seq_len(nrow(pp))
+tp$key <- seq_len(nrow(tp))
 
-        inp <- grep("^partial", names(session$input), value=TRUE)
-        if (!length(inp))
-            return( NULL )
-        fname <- input[[inp]]
+## Transect summaries: this should be available everywhere
+tpAgg <- aggregate(TPLOT ~ TRAN + ELEV + ELEVCL + ASP + ASPCL + YEAR, FUN=unique, data=tp)
+tpAgg <- with(tpAgg, tpAgg[order(TRAN, TPLOT, YEAR), ])
+
+## Transect summaries: this should be available everywhere
+ppAgg <- aggregate(PPLOT ~ ELEV + ELEVCL + ASP + ASPCL + YEAR + SOILCL, FUN=unique, data=pp)
+ppAgg <- with(ppAgg, ppAgg[order(PPLOT, YEAR), ])
+
+shinyServer(
+    function(input, output, session) {
+        ## Find all controllers and interfaces
+        values <- reactiveValues()
+        values$sources <- findParts(ids=c("partials", "controllers"))
         
-        ## Any security checks for bad paths
-        ## Add path to reactiveValues as well
-        projectPath <- file.path(input$level1, input$level2, "partials")
-        values <- reactiveValues(projectPath = projectPath)
+        output$container <- renderUI({
+            if (is.null(input$partial))
+                return( NULL )
+            
+            ## Any security checks for bad paths
+            ## Add path to reactiveValues as well
+            if (input$partial %in% usePlot)
+                source("partials/plotting_ui.R", local=TRUE)
 
-        ## Sources from projectPath/partials/<page>.R
-        source(file.path(projectPath, paste0(fname, ".R")), local=TRUE)$value
-    })
+            fname <- paste0(input$partial, "_ui")
+            projectPath <- file.path("partials")
 
-    ## source the controllers
-    files <- findControllers()
-    for (file in files) source(file, local=TRUE)
+            if (input$partial == 'ggvis') {
+                projectPath <- file.path("ggvis", "brush-linked", "partials")
+                fname <- "brushes"
+            } 
 
-}
+            values$projectPath <- projectPath
+
+            ## Sources from projectPath/partials/<page>.R
+            source(file.path(projectPath, paste0(fname, ".R")), local=TRUE)$value
+        })
+
+        ## source the controllers
+        for (file in isolate(values$sources$controllers)) source(file, local=TRUE)
+
+    }
+)
