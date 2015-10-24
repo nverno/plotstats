@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 21 00:32:08 2015 (-0400)
-## Last-Updated: Fri Oct 23 06:54:19 2015 (-0400)
+## Last-Updated: Fri Oct 23 20:04:52 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -12,7 +12,7 @@ dataloc <- c("../data", "data",
 datafiles <- c("pp.csv", "transect.csv")                  # data files
 temploc <- "../data"                                      # where to store temporary data
 
-.debug <- FALSE
+.debug <- TRUE
 
 source("R/widgets.R", chdir = TRUE)
 source("R/utils.R", chdir = TRUE)
