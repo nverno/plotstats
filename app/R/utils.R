@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 13:17:29 2015 (-0400)
-## Last-Updated: Fri Oct 23 05:59:29 2015 (-0400)
+## Last-Updated: Mon Oct 26 17:43:48 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -32,7 +32,7 @@ findData <- function(locs, files) {
 
 ## gather requires/libraries
 findPacks <- function(dirs='.', fnames=NULL, pattern='.*\\.[Rr]+', recursive=TRUE) {
-    files <- list.files(dirs, pattern=pattern, recursive=recursive)
+    files <- list.files(dirs, full.names=TRUE, pattern=pattern, recursive=recursive)
     if (!is.null(fnames)) files <-
         unlist(Vectorize(grep, "pattern")(fnames, files, fixed=TRUE, value=TRUE),
                use.names=FALSE)
