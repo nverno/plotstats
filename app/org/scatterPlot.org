@@ -1,0 +1,11 @@
+
+* Scatterplots
+  DEADLINE: <2015-10-27 Tue>
+  ** TODO Examples of differenct chart types
+  - [ ] tau charts
+  - [ ] ggvis
+  - [ ] dimple
+    
+  
+
+  

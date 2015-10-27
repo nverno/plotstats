@@ -1,0 +1,56 @@
+#+TITLE: Moose App TODO
+
+* Plots
+Need to add example plots for the various plotting libraries.
+
+** [[file:scatterPlot.org][Scatterplots]]
+
+** [[file:barplots.org][Barplots]]
+
+** [[file:maps.org][Maps]]
+
+** [[file:3D.org][3D Graphics]]
+   
+* Documentation
+  + Need to document column variables
+  + How splitting works
+  + Overview of project (refer to [[https://github.com/ua-snap/shiny-apps/blob/master/plot3D/ui.R][this guy]])
+
+* Create new variables
+  + Using R code
+  + Using GUI for nubs (need to decide what would be realistic)
+    + Should at least be able to create size classes for continuous variables to bin by.
+
+* Models
+  + Should there be options to fit simple models?
+  + ANOVAs/linear models, power fits for HT vs BA, gompertz models from manuscript?
+  + chisq or distribution tests?
+    
+* Tables
+  + Add option to subset by dataTable?  Might be more trouble than it is worth, but would be cool to at least be able \\
+    to get summaries of subsets.
+  + googleVis tables - are they any good?
+  + formattable looks ok, it uses knitr::kable
+
+* Aggregation
+  + Create UI panel with current variables in subset.
+  + Then be able to create subsets across whole dataset by those variables -- this could \\
+    take quite a bit of work.
+
+* Download/Upload
+  Should add options to download subsets and upload from locations.  Need to write functions \\
+  that will search for the tree data and pull it off of github if it isn't there.
+  
+* Setup/Maintain
+  + setup script
+  + batch/shell scripts to run/update app
+  
+* Packages
+  *Packages to explore*:
+  + rCharts
+  + rcdimple
+  + taucharts
+  + googleVis
+  + dygraphs
+  + htmlwidgets
+  + plotly

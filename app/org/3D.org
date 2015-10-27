@@ -1,0 +1,4 @@
+* 3D graphics
+  + Organize the code to make the 3D forests.
+  + Figure out how to integrate it into shiny, [[https://github.com/ua-snap/shiny-apps/tree/master/plot3D][this could be helpful]].
+    

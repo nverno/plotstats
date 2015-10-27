@@ -1,0 +1,8 @@
+
+* Barplots
+  DEADLINE: <2015-10-29 Thu>
+  ** TODO Examples
+  - [ ] taucharts
+  - [ ] ggvis
+  - [ ] dimple
+    

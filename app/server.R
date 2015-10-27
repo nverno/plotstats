@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:15:39 2015 (-0400)
-## Last-Updated: Thu Oct 22 23:05:23 2015 (-0400)
+## Last-Updated: Mon Oct 26 17:53:33 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Testing out partials/controllers separation
@@ -27,6 +27,9 @@ shinyServer(
         ## Find all controllers and interfaces
         values <- reactiveValues()
         values$sources <- findParts(ids=c("partials", "controllers"))
+
+        ## source the controllers
+        for (file in isolate(values$sources$controllers)) source(file, local=TRUE)
         
         output$container <- renderUI({
             if (is.null(input$partial))
@@ -50,9 +53,5 @@ shinyServer(
             ## Sources from projectPath/partials/<page>.R
             source(file.path(projectPath, paste0(fname, ".R")), local=TRUE)$value
         })
-
-        ## source the controllers
-        for (file in isolate(values$sources$controllers)) source(file, local=TRUE)
-
     }
 )

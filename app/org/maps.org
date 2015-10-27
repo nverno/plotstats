@@ -1,0 +1,6 @@
+* Interactive map showing plot/transect locations.
+  + Need all coorinates from Lixi
+  + Double check the ones on dropbox
+  + Decide what package to use, ggmap, googleVis?
+  + Which one would allow the most interaction when a point is clicked?
+    
