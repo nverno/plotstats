@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 21 00:32:08 2015 (-0400)
-## Last-Updated: Fri Oct 23 20:04:52 2015 (-0400)
+## Last-Updated: Tue Oct 27 15:22:26 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -29,13 +29,14 @@ require(shiny)
 require(plyr)
 require(dplyr)
 require(ggplot2)
-require(grid)      # arrows
-require(RColorBrewer)
 library(ggvis)
 require(DT)
 require(ggmap)
 require(googleVis)
-require(shinythemes)
+require(grid)         # arrows
+require(RColorBrewer) # brewer.pal
+require(shinythemes)  # flatly
+require(markdown)     # includeMarkdown
 ## require(shinyjs)   # toggle/show/hid
 ## require(devtools)  # install_github
 

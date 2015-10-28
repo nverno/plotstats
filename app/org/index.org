@@ -1,7 +1,7 @@
 #+TITLE: Moose App TODO
 
 * Plots
-Need to add example plots for the various plotting libraries.
+Need to add [[http://shiny.rstudio.com/gallery/][example]] plots for the various plotting libraries.
 
 ** [[file:scatterPlot.org][Scatterplots]]
 
@@ -11,42 +11,65 @@ Need to add example plots for the various plotting libraries.
 
 ** [[file:3D.org][3D Graphics]]
    
-* Documentation
-  + Need to document column variables
-  + How splitting works
-  + Overview of project (refer to [[https://github.com/ua-snap/shiny-apps/blob/master/plot3D/ui.R][this guy]])
+* TODO Documentation [0/7]
+  - [ ] pp variables
+  - [ ] tp variables
+  - [ ] How splitting works
+  - [ ] Overview of project (refer to [[https://github.com/ua-snap/shiny-apps/blob/master/plot3D/ui.R][this guy]])
+  - [ ] Aggregation: categorical variables
+  - [ ] Aggregation: continuous/categorical
+  - [ ] Aggregation: cont/cont
 
-* Create new variables
-  + Using R code
-  + Using GUI for nubs (need to decide what would be realistic)
-    + Should at least be able to create size classes for continuous variables to bin by.
+* TODO Simple reusable subsetting panel [0/2]
+  - [ ] pp
+  - [ ] tp
 
-* Models
-  + Should there be options to fit simple models?
-  + ANOVAs/linear models, power fits for HT vs BA, gompertz models from manuscript?
-  + chisq or distribution tests?
+* TODO Create new variables [0/4]
+  DEADLINE: <2015-10-30 Fri>
+  - [ ] Using R code (arbitrary complexity)
+  _For the GUI_
+  - [ ] Bin continuous variables
+  - [ ] Simple combination variables (multiply/divide etc)
+  - [ ] Neighborhood variables
+
+* TODO Models for static charts [0/4]
+  - [ ] Simple models: linear, power, exponential
+  - [ ] ANOVAs
+  - [ ] gompertz
+  - [ ] chisq
     
-* Tables
-  + Add option to subset by dataTable?  Might be more trouble than it is worth, but would be cool to at least be able \\
+* TODO Tables [1/3]
+  *Lowest priority*
+  - [ ] Add option to subset by dataTable?  Might be more trouble than it is worth, but would be cool to at least be able \\
     to get summaries of subsets.
-  + googleVis tables - are they any good?
-  + formattable looks ok, it uses knitr::kable
+  - [ ] googleVis tables - are they any good?
+  - [X] formattable looks ok, it uses knitr::kable => decided, "meh"
 
-* Aggregation
-  + Create UI panel with current variables in subset.
-  + Then be able to create subsets across whole dataset by those variables -- this could \\
-    take quite a bit of work.
+* TODO Aggregation [1/8]
+  DEADLINE: <2015-10-29 Thu>
+  - [X] Create UI panel with current variables in subset.
+  - [ ] Only allow proper variable types in certain types of aggregation
+  - [ ] Implement tables
+  - [ ] Do with dplyr
+  - [ ] do with data.table (would be nice to have all the options to try)
+  - [ ] Allow multiple aggregation functions at once
+  - [ ] Add quick access to visual summaries (lines/bars)
+  - [ ] Allow access to variables across whole dataset
 
-* Download/Upload
-  Should add options to download subsets and upload from locations.  Need to write functions \\
-  that will search for the tree data and pull it off of github if it isn't there.
+* TODO Download/Upload [0/4]
+  - [ ] save data subsets
+  - [ ] save images
+  - [ ] upload data
+  - [ ] pull data off github
   
-* Setup/Maintain
-  + setup script
-  + batch/shell scripts to run/update app
+* TODO Setup/Maintain [0/2]
+  - [ ] setup script
+    - [ ] test windows
+    - [ ] test linux/mac
+  - [ ] batch/shell scripts to run/update app
   
 * Packages
-  *Packages to explore*:
+  *Graphics packages to explore*:
   + rCharts
   + rcdimple
   + taucharts

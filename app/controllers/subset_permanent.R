@@ -3,28 +3,28 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Thu Oct 22 17:07:13 2015 (-0400)
-## Last-Updated: Mon Oct 26 20:33:13 2015 (-0400)
+## Last-Updated: Tue Oct 27 18:53:03 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: 'pp'
 ppVals <- reactiveValues(pplots=levels(ppAgg$PPLOT), ppDat=NULL)
 
 ## Display a summary of the chosen options when the subsetting interface is
-## hidden
+## hidden, these rely on values stored in ppVals when the partial changes
 output$ppSubsetSummary <- renderUI({
-    if (input$ppShow == 'summarise') {
+    if (!is.null(ppVals$ppDat)) {
         isolate({
-            elev <- if (input$ppElevType == 'range') {
-                paste(input$ppElevRange, collapse="-")
-            } else paste(input$ppElevClass, collapse=", ")
-            asps <- paste(input$ppAsp, collapse = ", ")
-            soils <- paste(input$ppSoilClass, collapse = ", ")
-            plots <- paste(input$ppPlot, collapse=", ")
+            elev <- if ((ppVals$ppElevType %||% input$ppElevType) == 'range') {
+                paste((ppVals$ppElevRange %||% input$ppElevRange), collapse="-")
+            } else paste((ppVals$ppElevClass %||% input$ppElevClass), collapse=", ")
+            asps <- paste((ppVals$ppAsp %||% input$ppAsp), collapse = ", ")
+            soils <- paste((ppVals$ppSoilClass %||% input$ppSoilClass), collapse = ", ")
+            plots <- paste((ppVals$ppPlot %||% input$ppPlot), collapse=", ")
 
             if (length(plots) < 1) return(helpText('No plots selected.'))
             
             list(
-                helpText('This is a summary of the selected options.'),
+                helpText('Current subset:'),
                 HTML(c(
                     '<p><span style="font-weight:bold;">Plots</span>:', plots, '<br>',
                     '<span style="font-weight:bold;">Elevation</span>: ', elev, '<br>',
@@ -34,6 +34,8 @@ output$ppSubsetSummary <- renderUI({
                 ))
             )
         })
+    } else {
+        helpText("No subset currently.")
     }
 })
 
@@ -44,10 +46,10 @@ output$ppSubsetSummary <- renderUI({
 ################################################################################
 ## Selectors for plot checkboxes
 observeEvent(input$ppAllPlots,
-             updateCheckboxGroupInput(session, inputId='ppPlot', selected=ppVals$pplots, inline=TRUE))
+updateCheckboxGroupInput(session, inputId='ppPlot', selected=ppVals$pplots, inline=TRUE))
 observeEvent(input$ppNonePlots,
-             updateCheckboxGroupInput(session, inputId='ppPlot',
-                                      choices=ppVals$pplots, selected=NULL, inline=TRUE))
+updateCheckboxGroupInput(session, inputId='ppPlot',
+                         choices=ppVals$pplots, selected=NULL, inline=TRUE))
 
 ## Only show plots available for each elev
 observe({
@@ -87,6 +89,7 @@ observe({
 ################################################################################
 observeEvent(input$ppMake, {
     if (.debug) print("created ppVals")
+    captureInputs('pp', ppVals, isolate(session$input))
     inds <- with(pp, PPLOT %in% input$ppPlot)
     ppVals$ppDat <- pp[inds,]
 })

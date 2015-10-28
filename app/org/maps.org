@@ -1,6 +1,11 @@
-* Interactive map showing plot/transect locations.
-  + Need all coorinates from Lixi
-  + Double check the ones on dropbox
-  + Decide what package to use, ggmap, googleVis?
-  + Which one would allow the most interaction when a point is clicked?
+* TODO Makin maps [2/8]
+  Interactive map showing plot/transect locations
+  - [X] permanent plot coordinates
+  - [X] add permanent plot markers to google plot
+  - [ ] check out [[http://leafletjs.com/examples/quick-start.html][leaflet]], looks really good for interactivity
+  - [ ] learn how to read shapefiles
+  - [ ] read the transect locations (preferable with elevation?)
+  - [ ] add markers for transect plots
+  - [ ] add paths for transects
+  - [ ] Make markers interactive
     

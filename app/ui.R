@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:10:44 2015 (-0400)
-## Last-Updated: Fri Oct 23 06:52:20 2015 (-0400)
+## Last-Updated: Tue Oct 27 19:00:30 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -11,27 +11,38 @@ fluidPage(
     theme=shinytheme("flatly"),
     tags$head(tags$link(
         rel="stylesheet", type="text/css", href="styles.css"
-    )),
-    headerPanel('Moose Plots', h2, 'Moosilauke Data'),
+    ), tags$title("Moosilauke Data")),
 
     ## Conditional panels to render partial interfaces
-    tabsetPanel(
+    navbarPage(
+        title="Moosilauke Data",
         id = 'partial',
-        tabPanel('Subset', value="subset"),
-        tabPanel('Barplot', value="barplot"),
-        tabPanel('Scatterplot', value='scatter'),
         tabPanel('Map', value='map'),
-        tabPanel('Motion', value='motion'),
-        tabPanel('GGvis', value="ggvis")
+        navbarMenu(
+            title="Data",
+            tabPanel('Selection', value="subset"),
+            tabPanel('Table', value = 'dataTable'),
+            tabPanel('Aggregate', value='aggregate')
+        ),
+        navbarMenu(
+            title = 'Static Charts',
+            tabPanel('Barplot', value="barplot"),
+            tabPanel('Scatterplot', value='scatter')
+        ),
+        navbarMenu(
+            title = 'Interactive Charts',
+            tabPanel('Motion', value='motion'),
+            tabPanel('GGvis', value="ggvis")
+        ),
+        navbarMenu(
+            title="Info",
+            tabPanel('Data Info', value='info')
+        )
     ),
     
     uiOutput("container"),
 
     ## Debug info
-    if (.debug) source("partials/debug_ui.R", local=TRUE)$value,
-    
-    fluidRow(
-        hr(style='border:thin solid #1D1A1A;'),
-        DT::dataTableOutput('dataTable')
-    )
+    lapply(1:4, function(i) br()),
+    if (.debug) source("partials/debug_ui.R", local=TRUE)$value
 )

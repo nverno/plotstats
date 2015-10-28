@@ -3,9 +3,17 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 13:17:29 2015 (-0400)
-## Last-Updated: Mon Oct 26 17:43:48 2015 (-0400)
+## Last-Updated: Tue Oct 27 17:34:05 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
+
+## Store input values, so when partials are rendered values can be restored
+captureInputs <- function(prefix, rvals, input) {
+    isolate({
+        inps <- grep(sprintf("^%s", prefix), names(input), value=TRUE)
+        for (i in inps) rvals[[i]] <- input[[i]]
+    })
+}
 
 ## Return a list of partials/controllers from subdirectories
 findParts <- function(ids=c("partials", "controllers")) {

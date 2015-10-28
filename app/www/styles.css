@@ -1,3 +1,7 @@
 .verticalLine {
     border-left: thick solid #1D1A1A;
 }
+
+.selectize-input .selectize-dropdown {
+    font-size: 80%
+}
