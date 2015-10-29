@@ -3,13 +3,12 @@
 ## Description: Remake datasets for analysis
 ## Author: Noah Peart
 ## Created: Thu Aug 13 19:58:42 2015 (-0400)
-## Last-Updated: Thu Oct 22 23:11:45 2015 (-0400)
+## Last-Updated: Wed Oct 28 14:38:57 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
 ## Find data
 locs <- findData(dataloc, datafiles)
-if (length(locs$missed)) stop(paste("\nMissing", locs$missed))
 
 ## Data with estimated heights/boles
 tryCatch({

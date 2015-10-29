@@ -3,10 +3,10 @@
 ## Description: setup for vector growth interactive app
 ## Author: Noah Peart
 ## Created: Thu Aug 13 20:10:33 2015 (-0400)
-## Last-Updated: Wed Oct 21 18:56:02 2015 (-0400)
+## Last-Updated: Wed Oct 28 14:48:33 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
-source("utils.R", chdir = T)
+source("utils.R")
 
 if (!file.exists(temploc))
     dir.create(temploc)
@@ -19,3 +19,6 @@ if (!file.exists(file.path(temploc, "pp.rds")) |
     pp <- readRDS(file.path(temploc, "pp.rds"))
     tp <- readRDS(file.path(temploc, "tp.rds"))
 }
+
+## Location data
+source("locations.R")

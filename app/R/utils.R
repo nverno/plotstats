@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 13:17:29 2015 (-0400)
-## Last-Updated: Tue Oct 27 17:34:05 2015 (-0400)
+## Last-Updated: Wed Oct 28 14:38:43 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -25,7 +25,7 @@ findParts <- function(ids=c("partials", "controllers")) {
 }
 
 ## Find data
-findData <- function(locs, files) {
+findData <- function(locs, files, throw_error=TRUE) {
     found <- c()
     for (loc in locs) {
         if (any((present <- file.exists(file.path(loc, files))))) {
@@ -35,6 +35,8 @@ findData <- function(locs, files) {
         if (length(files) == 0)
             break
     }
+    if (throw_error && length(files))
+        stop(paste("\nMissing:", files, collapse=","))
     return( list(found=found, missed=files) )
 }
 

@@ -3,5 +3,47 @@
 }
 
 .selectize-input .selectize-dropdown {
-    font-size: 80%
+    font-size: 80%;
+}
+
+/* Make this panel hideable */
+#leaf-control-panel {
+    width: 20%;
+    right: -10%;
+    top: 15%;
+    position: fixed;
+    border: 2px solid #8AC007;
+    padding: 5px;
+    border-radius: 1em 1em 1em 1em;
+    background-color: rgba(204, 102, 51, 0.3);
+}
+
+#leaf-control-panel:hover {
+    right:-8%
+}
+
+#leaf-control-panel.show {
+    right: 0%;
+    width: 20%;
+    top: 15%;
+    position: fixed;
+    border: 2px solid #8AC007;
+    padding: 5px;
+    border-radius: 1em 1em 1em 1em;
+    background-color: rgba(204, 102, 51, 0.3);
+}
+
+#leaf-control-panel a.controller {
+    top: 0;
+    left: 5px;
+    position: absolute;
+    color: black;
+    font-weight: bold;
+}
+
+#leafRow {
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+    padding-top: 20px;
 }
