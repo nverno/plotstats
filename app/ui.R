@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:10:44 2015 (-0400)
-## Last-Updated: Thu Oct 29 06:04:55 2015 (-0400)
+## Last-Updated: Sat Oct 31 01:39:19 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -18,8 +18,12 @@ fluidPage(
     navbarPage(
         title="Moosilauke Data",
         id = 'partial',
-        tabPanel('Leaflet', value='leaflet'),
-        tabPanel('Map', value='map'),
+        tabPanel('Todo', value='todo'),
+        navbarMenu(
+            title="Maps",
+            tabPanel('Interactive (leaflet)', value='leaflet'),
+            tabPanel('Static (google)', value='map')
+        ),
         navbarMenu(
             title="Data",
             tabPanel('Selection', value="subset"),

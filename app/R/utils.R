@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 13:17:29 2015 (-0400)
-## Last-Updated: Wed Oct 28 14:38:43 2015 (-0400)
+## Last-Updated: Fri Oct 30 17:58:43 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -88,3 +88,6 @@ blankDF <- function(...) {
     dat <- setNames(as.list(integer(length(ns))), ns)
     as.data.frame(dat)[0,]
 }
+
+## remove nulls/empty values from list
+nonEmpty <- function(lst) lst[sapply(lst, function(i) !is.null(i) && length(i))]

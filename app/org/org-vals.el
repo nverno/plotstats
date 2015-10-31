@@ -3,7 +3,7 @@
 ;; Description: 
 ;; Author: Noah Peart
 ;; Created: Mon Oct 26 21:13:26 2015 (-0400)
-;; Last-Updated: Tue Oct 27 03:07:00 2015 (-0400)
+;; Last-Updated: Sat Oct 31 02:02:59 2015 (-0400)
 ;;           By: Noah Peart
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ox-publish)
@@ -13,7 +13,11 @@
        ((string-equal system-type "windows-nt")
 	"C:/home/work/plotstats/app/org/")
        (t "~/work/plotstats/app/org")))
-(setq htmldir (concat projdir "html/"))
+(setq htmldir
+      (cond
+       ((string-equal system-type "windows-nt")
+	"C:/home/work/plotstats/app/www/org/html/")
+       (t "~/work/plotstats/app/www/org/html/")))
 (setq theme-file "theme-bigblow.setup")
 (setq preamble (prep-org (get-string-from-file theme-file)))
 

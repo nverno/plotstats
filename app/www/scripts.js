@@ -1,4 +1,4 @@
 function showLeafPanel() {
-    var elem = document.getElementById('leaf-control-panel')
+    var elem = document.getElementByClassName('leaf-toggle')
     elem.classList.toggle("show");
 }

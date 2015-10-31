@@ -3,9 +3,10 @@
 ## Description: Load/format location data 
 ## Author: Noah Peart
 ## Created: Wed Oct 28 14:08:29 2015 (-0400)
-## Last-Updated: Wed Oct 28 17:13:10 2015 (-0400)
+## Last-Updated: Fri Oct 30 23:36:39 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
+## Will use naming convention: lat/lng
 
 ################################################################################
 ##
@@ -29,6 +30,7 @@ pploc <- if (!file.exists(file.path(temploc, "pp_loc.rds"))) {
 
         ## PPLOT as factor?  different levels than in 'pp'
         res[, PPLOT := factor(PPLOT)]
+        setnames(res, c("LONG", "LAT"), c("lng", "lat"))
         saveRDS(res, file.path(temploc, "pp_loc.rds"))
         res
     })
@@ -36,5 +38,5 @@ pploc <- if (!file.exists(file.path(temploc, "pp_loc.rds"))) {
 
 ## Markers for get_googlemap()
 ## Convention seems to be long/lat for all the packages
-ppmarks <- pploc[,c("LONG", "LAT"), with=FALSE]
+ppmarks <- pploc[,c("lng", "lat"), with=FALSE]
 

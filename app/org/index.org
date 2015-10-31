@@ -8,7 +8,7 @@ Need to add [[http://shiny.rstudio.com/gallery/][example]] plots for the various
 ** [[file:barplots.org][Barplots]]
 
 ** [[file:maps.org][Maps]]
-
+   
 ** [[file:3D.org][3D Graphics]]
    
 * TODO Documentation [0/7]
