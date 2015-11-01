@@ -3,11 +3,11 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Thu Oct 22 17:07:13 2015 (-0400)
-## Last-Updated: Tue Oct 27 18:53:03 2015 (-0400)
+## Last-Updated: Sat Oct 31 15:06:46 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: 'pp'
-ppVals <- reactiveValues(pplots=levels(ppAgg$PPLOT), ppDat=NULL)
+ppVals <- reactiveValues(pplots=levels(ppAgg$PPLOT), ppPlot=levels(ppAgg$PPLOT), ppDat=pp)
 
 ## Display a summary of the chosen options when the subsetting interface is
 ## hidden, these rely on values stored in ppVals when the partial changes

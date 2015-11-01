@@ -1,15 +1,16 @@
-* TODO Makin maps [2/8]
+* TODO Makin maps [4/9]
   Interactive map showing plot/transect locations
   - [X] permanent plot coordinates
   - [X] add permanent plot markers to google plot
   - [-] check out [[http://leafletjs.com/examples/quick-start.html][leaflet]], looks really good for interactivity
     - [X] add circles colored/shaped by variable
-    - [ ] make agg/pal combined, so they are calculated once
+    - [X] make agg/pal combined, so they are calculated once
     - [ ] fix legend
     - [ ] add aggregation variables
-  - [ ] learn how to read shapefiles
-  - [ ] read the transect locations (preferable with elevation?)
+  - [X] learn how to read shapefiles
+  - [X] read the transect locations (preferable with elevation?)
   - [ ] add markers for transect plots
+  - [ ] markers for contours/other sampling locations
   - [ ] add paths for transects
   - [ ] Make markers interactive
     

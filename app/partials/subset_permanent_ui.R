@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Thu Oct 22 16:45:50 2015 (-0400)
-## Last-Updated: Tue Oct 27 18:36:41 2015 (-0400)
+## Last-Updated: Sat Oct 31 15:07:38 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: 'pp'
@@ -52,7 +52,7 @@ ppSubsetOptions <- tagList(
                )),
         column(5, class='col-sm-5 verticalLine',
                h4("Summary"),
-               helpText("This only happens after clicking 'Make Subset'", style='font-size:75%;'),
+               helpText("Initially all the data is selected.", style='font-size:75%;'),
                hr(),
                uiOutput('ppSubsetSummary'))
     )

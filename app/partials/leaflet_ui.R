@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 28 15:59:57 2015 (-0400)
-## Last-Updated: Sat Oct 31 06:13:10 2015 (-0400)
+## Last-Updated: Sat Oct 31 17:38:49 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: 'leaf'
@@ -18,7 +18,7 @@ leafLayers <- tagList(
             sliderInput('leafBaseOverlayOpacity', 'Opacity', min=0, max=1, value=0.35)
         ),
         selectizeInput('leafTerrain', 'Base Layers', choices=isolate(leafVals$leafTerrain),
-                       selected='Topo1'),
+                       selected=isolate(leafVals$leafLayerDefault)),
         selectizeInput('leafToner', 'Toner Layers',
                        choices=isolate(leafVals$leafToners), selected=NULL),
         selectizeInput('leafWeather', 'Weather Layers',

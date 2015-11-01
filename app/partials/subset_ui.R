@@ -3,14 +3,14 @@
 ## Description: Main subset UI
 ## Author: Noah Peart
 ## Created: Thu Oct 22 19:13:14 2015 (-0400)
-## Last-Updated: Thu Oct 22 23:52:54 2015 (-0400)
+## Last-Updated: Sat Oct 31 15:17:41 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: ''
 
 subsetOptions <- tagList(
     radioButtons('data', 'Data:', choices=c('Permanent Plots'='pp', 'Transects'='tp'),
-                 selected='pp', inline=TRUE),
+                 selected=isolate(values$data) %||% 'pp', inline=TRUE),
     hr(),
     
     conditionalPanel(

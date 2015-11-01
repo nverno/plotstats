@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 13:17:29 2015 (-0400)
-## Last-Updated: Fri Oct 30 17:58:43 2015 (-0400)
+## Last-Updated: Sun Nov  1 00:07:07 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -91,3 +91,13 @@ blankDF <- function(...) {
 
 ## remove nulls/empty values from list
 nonEmpty <- function(lst) lst[sapply(lst, function(i) !is.null(i) && length(i))]
+
+## If the underlying variable is numeric, like PPLOT,
+## lets order the factor numerically, otherwise use a standard
+## sort
+levOrder <- function(v) {
+    if (any(stringr::str_detect(v, "[[:alpha:]]"), na.rm=TRUE)) {
+        sort(unique(na.omit(v)))
+    } else sort(unique(as.numeric(as.character(v))))
+}
+

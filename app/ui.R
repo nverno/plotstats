@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:10:44 2015 (-0400)
-## Last-Updated: Sat Oct 31 01:39:19 2015 (-0400)
+## Last-Updated: Sat Oct 31 18:14:52 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 
@@ -26,24 +26,24 @@ fluidPage(
         ),
         navbarMenu(
             title="Data",
-            tabPanel('Selection', value="subset"),
-            tabPanel('Table', value = 'dataTable'),
+            tabPanel('Selection', icon=shiny::icon('database'), value="subset"),
+            tabPanel('Table', icon=shiny::icon('table'), value = 'dataTable'),
             tabPanel('Aggregate', value='aggregate')
         ),
         navbarMenu(
-            title = 'Static Charts',
-            tabPanel('Barplot', value="barplot"),
-            tabPanel('Scatterplot', value='scatter')
+            title = '',
+            icon = shiny::icon('bar-chart'),
+            tabPanel('Barplot', icon=shiny::icon('bar-chart'), value="barplot"),
+            tabPanel('Scatterplot', icon=shiny::icon('line-chart'), value='scatter'),
+            tabPanel('Motion', value='motion', icon = shiny::icon('wrench')),
+            tabPanel('GGvis', value="ggvis", icon = shiny::icon('wrench'))
         ),
         navbarMenu(
-            title = 'Interactive Charts',
-            tabPanel('Motion', value='motion'),
-            tabPanel('GGvis', value="ggvis")
-        ),
-        navbarMenu(
-            title="Info",
+            title="",
+            icon = shiny::icon('info-circle'),
             tabPanel('Data Info', value='info')
-        )
+        ),
+        tabPanel(title="", value='code', icon = shiny::icon('code'))
     ),
     
     uiOutput("container"),

@@ -3,11 +3,11 @@
 ## Description: Reactive elements associated with subset_transect_ui.R
 ## Author: Noah Peart
 ## Created: Wed Oct 21 16:40:12 2015 (-0400)
-## Last-Updated: Thu Oct 22 20:27:19 2015 (-0400)
+## Last-Updated: Sat Oct 31 15:12:00 2015 (-0400)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: 'tp'
-tpVals <- reactiveValues(tplots=NULL, tpDat=NULL)  # use this to store TPLOT/TRAN
+tpVals <- reactiveValues(tplots=NULL, tpDat=tp)  # use this to store TPLOT/TRAN
 
 ## Create checkbox input for the TPLOT separately for each selected TRAN
 ## Note: might be nice to have these side by side vertically

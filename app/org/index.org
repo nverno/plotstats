@@ -50,8 +50,6 @@ Need to add [[http://shiny.rstudio.com/gallery/][example]] plots for the various
   - [X] Create UI panel with current variables in subset.
   - [ ] Only allow proper variable types in certain types of aggregation
   - [ ] Implement tables
-  - [ ] Do with dplyr
-  - [ ] do with data.table (would be nice to have all the options to try)
   - [ ] Allow multiple aggregation functions at once
   - [ ] Add quick access to visual summaries (lines/bars)
   - [ ] Allow access to variables across whole dataset
@@ -77,3 +75,5 @@ Need to add [[http://shiny.rstudio.com/gallery/][example]] plots for the various
   + dygraphs
   + htmlwidgets
   + plotly
+  + shinyTree
+    
