@@ -12,5 +12,6 @@ __py*
 *.mp4
 temp/
 Figs/
-	
+*.html
+
 !.gitignore
