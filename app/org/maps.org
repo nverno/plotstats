@@ -1,4 +1,4 @@
-* TODO Makin maps [4/9]
+* TODO Makin maps [6/9]
   Interactive map showing plot/transect locations
   - [X] permanent plot coordinates
   - [X] add permanent plot markers to google plot
@@ -9,8 +9,8 @@
     - [ ] add aggregation variables
   - [X] learn how to read shapefiles
   - [X] read the transect locations (preferable with elevation?)
-  - [ ] add markers for transect plots
-  - [ ] markers for contours/other sampling locations
+  - [X] add markers for transect plots
+  - [X] markers for contours/other sampling locations
   - [ ] add paths for transects
   - [ ] Make markers interactive
     

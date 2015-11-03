@@ -10,6 +10,10 @@ Need to add [[http://shiny.rstudio.com/gallery/][example]] plots for the various
 ** [[file:maps.org][Maps]]
    
 ** [[file:3D.org][3D Graphics]]
+
+* TODO Basic subsetting panel [0/2]
+  - [ ] Fix the summary of transect plots
+  - [ ] Possible to improve the subsetting options (something like shinyTree for TPLOTS)?
    
 * TODO Documentation [0/7]
   - [ ] pp variables

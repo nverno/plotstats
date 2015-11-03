@@ -2,16 +2,26 @@
 ./app.R,11
 aapp5,46
 
-./config.R,43
-rrequired_packages11,338
-mmissed12,371
-
 ./controllers/barplot.R,17
 bbpltDat11,294
 
 ./controllers/debug.R,39
 ddebugShiny11,324
 ddebugVals28,836
+
+./controllers/leaflet.R,50
+ppopFn17,555
+lleafDat23,721
+ccolorpal30,945
+
+./controllers/leaflet_layers.R,18
+lleafVals11,367
+
+./controllers/map.R,17
+mmapVals10,313
+
+./controllers/motion.R,17
+ggoogDat11,292
 
 ./controllers/plotting.R,36
 vvisVals10,327
@@ -20,33 +30,60 @@ ssplitForm21,763
 ./controllers/scatter.R,17
 sscatDat11,317
 
-./controllers/subset_permanent.R,32
-pppVals10,309
-pppDat95,3556
-
 ./controllers/subset.R,13
 ddat11,324
 
+./controllers/subset_permanent.R,32
+pppVals10,309
+pppDat98,3829
+
 ./controllers/subset_transect.R,33
 ttpVals10,361
-ttpDat126,4646
+ttpDat126,4644
 
 ./ggvis/brush-linked/controllers/controls.R,55
 llb44,1256
 sselected46,1296
 ddat_selected47,1320
 
-./global.R,121
-ddataloc10,274
-ddatafiles12,393
-ttemploc13,464
-..debug15,555
-uusePlot21,691
-mmypal46,1408
-ddefaults47,1457
+./ggvis/colorRange/global.R,12
+ddf10,274
+
+./global.R,162
+ttree_data9,273
+llocation_data10,324
+ddataloc12,457
+ddatafiles14,576
+ttemploc15,647
+..debug17,738
+uusePlot20,803
+mmypal61,1833
+ddefaults62,1882
+
+./partials/aggregate_ui.R,45
+vvars12,410
+ffuns14,441
+aaggOpts16,523
 
 ./partials/barplot_ui.R,22
 bbpltSizeOpts16,525
+
+./partials/code_ui.R,85
+mmodes11,294
+tthemes12,317
+hhotkeys13,342
+ccodeOpts19,476
+ccodePanel29,880
+
+./partials/leaflet_ui.R,108
+lleafLayers12,314
+lleafVariable32,1247
+lleafExpanders45,1766
+lleafPPplots57,2231
+lleafOpts66,2473
+
+./partials/map_ui.R,17
+mmapOpts11,291
 
 ./partials/plotting_ui.R,66
 ttpSplitChoices16,546
@@ -59,7 +96,7 @@ sscatOpts11,314
 ./partials/subset_permanent_ui.R,62
 pppERange14,390
 pppSubsetOptions17,475
-pppSubset53,2102
+pppSubset62,2475
 
 ./partials/subset_transect_ui.R,62
 ttpERange15,433
@@ -69,35 +106,73 @@ ttpSubset56,2063
 ./partials/subset_ui.R,23
 ssubsetOptions11,308
 
-./R/remake.R,281
-llocs11,315
-yyrs27,900
-ccols28,925
-ddat30,1079
-ccols31,1109
-ddat32,1172
-vvars36,1306
-ddied58,2363
-ddat68,2852
-ppp104,4809
-yyrs170,7116
-ccols171,7145
-ddat172,7275
-ccols173,7293
-ddat174,7352
-ddat176,7457
-ddat190,8065
-ttp204,8730
-ccoords217,9233
+./R/config.R,43
+rrequired_packages11,336
+mmissed12,398
 
-./R/utils.R,131
-ffindParts11,333
-ffindData20,645
-ffindPacks34,1033
-ggrepInOrder53,1895
-ppol2cart59,2070
-"%||%73,2587
-bblankDF76,2690
+./R/prep/moose_locations.R,82
+ddatlocs10,349
+ppploc13,459
+llocs14,549
+nnumCols26,934
+ffactCols27,1003
+
+./R/prep/pp_clean.R,156
+llocs10,323
+yyrs25,872
+ccols26,897
+ddat28,1051
+ccols29,1081
+ddat30,1144
+vvars34,1278
+ddied56,2335
+ddat66,2824
+ppp101,4750
+ppp116,5299
+
+./R/prep/split_agg_locations.R,132
+llocs11,449
+aagg20,807
+rres24,994
+kkeeps26,1088
+ppploc28,1216
+aagg39,1633
+rres41,1756
+kkeeps42,1807
+ttploc44,1921
+
+./R/prep/tp_clean.R,153
+llocs10,316
+yyrs24,788
+ccols25,817
+ddat26,947
+ccols27,965
+ddat28,1024
+ddat30,1129
+ddat44,1737
+ttp59,2513
+ttp62,2602
+ccoords77,3182
+
+./R/setup.R,90
+ppp19,543
+ttp20,587
+ppploc27,835
+ttploc28,886
+mmooseloc29,937
+pppmarks33,1082
+
+./R/utils.R,192
+ccaptureInputs11,348
+ffindParts19,603
+ffindData28,915
+ffindPacks44,1414
+ggrepInOrder63,2293
+ppol2cart69,2468
+"%||%83,2985
+bblankDF86,3088
+nnonEmpty93,3288
+llevOrder98,3495
 
 ./R/widgets.R,91
 bbuttonSeparator10,338
@@ -110,3 +185,9 @@ ttpAgg18,543
 ttpAgg19,634
 pppAgg22,750
 pppAgg23,843
+
+./test/blah.R,58
+ttheta11,283
+rround112,321
+ddat13,349
+iinds16,472

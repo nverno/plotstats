@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 21 00:32:08 2015 (-0400)
-## Last-Updated: Sat Oct 31 23:57:18 2015 (-0400)
+## Last-Updated: Mon Nov  2 15:37:13 2015 (-0500)
 ##           By: Noah Peart
 ######################################################################
 tree_data <- c('pp'="pp.csv", 'tp'="transect.csv")
@@ -61,3 +61,9 @@ source("R/utils.R", chdir = TRUE)
 mypal <- colorRampPalette(brewer.pal(6, "RdBu"))
 defaults <- list(theme_bw(), scale_fill_brewer(palette='Spectral', drop=FALSE))
 
+################################################################################
+##
+##                                 Locations
+##
+################################################################################
+mooseView <- c('lng1'=-71.7548, 'lng2'=-71.90912, 'lat1'=43.95909, 'lat2'=44.05786)

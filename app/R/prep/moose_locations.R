@@ -3,9 +3,15 @@
 ## Description: GPS for assorted sampling sites at Moosilauke
 ## Author: Noah Peart
 ## Created: Sat Oct 31 19:32:31 2015 (-0400)
-## Last-Updated: Sat Oct 31 23:28:15 2015 (-0400)
+## Last-Updated: Sun Nov  1 18:03:24 2015 (-0500)
 ##           By: Noah Peart
 ######################################################################
+## There are a few different types of location data:
+## - Permanent plots: PPLOT
+## - Transect Plots: TRAN, each with associated TPLOT values
+## - contours: CONTNAM, each with associated STPACE values
+## - others: if none of the above, then refer to LABEL
+
 ## Find data
 datlocs <- findData(dataloc, location_data)
 
@@ -43,6 +49,13 @@ locs[!is.na(PPLOT),DEMSLOPE := pploc[["DEMSLOPE"]]]
 
 ## Rename LAT/LONG to lat/lng
 setnames(locs, c("LAT", "LONG"), c("lat", "lng"))
+
+## Condense type of location: PPLOT/TRAN/CONTNAM/OTHER
+locs[,OTHER := ifelse(is.na(PPLOT) & is.na(TRAN) & is.na(CONTNAM), LABEL, NA)]
+
+## Location type: "TYPE", and its value: "VALUE"
+locs <- melt(locs, variable.name = "TYPE", value.name = "VALUE",
+             measure.vars = c('PPLOT', 'TRAN', 'CONTNAM', 'OTHER'), na.rm=TRUE)
 
 ## Save as locations.rds
 saveRDS(locs, file.path(temploc, "locations.rds"))

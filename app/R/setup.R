@@ -3,7 +3,7 @@
 ## Description: setup for vector growth interactive app
 ## Author: Noah Peart
 ## Created: Thu Aug 13 20:10:33 2015 (-0400)
-## Last-Updated: Sat Oct 31 23:38:32 2015 (-0400)
+## Last-Updated: Mon Nov  2 15:01:31 2015 (-0500)
 ##           By: Noah Peart
 ######################################################################
 source("utils.R")
@@ -26,6 +26,8 @@ if (!file.exists(file.path(temploc, "pp_loc.rds")))
     source("prep/split_agg_locations.R")
 pploc <- readRDS(file.path(temploc, "pp_loc.rds"))
 tploc <- readRDS(file.path(temploc, "tp_loc.rds"))
+otherloc <- readRDS(file.path(temploc, "other_loc.rds"))
+contloc <- readRDS(file.path(temploc, "contour_loc.rds"))
 mooseloc <- readRDS(file.path(temploc, "locations.rds"))
 
 ## Markers for get_googlemap()

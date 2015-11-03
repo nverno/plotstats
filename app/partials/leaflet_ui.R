@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 28 15:59:57 2015 (-0400)
-## Last-Updated: Sat Oct 31 17:38:49 2015 (-0400)
+## Last-Updated: Tue Nov  3 00:24:31 2015 (-0500)
 ##           By: Noah Peart
 ######################################################################
 ## Prefix: 'leaf'
@@ -29,11 +29,11 @@ leafLayers <- tagList(
 )
 
 ## Inputs for variables to be shown on map
+aggChoices <- names(isolate(pploc))[grepl("CL$", names(isolate(pploc)))]
 leafVariable <- tagList(
     fluidRow(
         id='leaf-variable', class='leaf-controls collapse',
-        selectInput('leafAggVar', 'Summary Variable',
-                    choices=c('None',names(isolate(leafDat()))[grepl("CL$", names(isolate(leafDat())))])),
+        selectInput('leafAggVar', 'Summary Variable', choices=c('None', aggChoices)),
         selectInput('leafColor', 'Color Scheme',
                     choices=rownames(brewer.pal.info[brewer.pal.info %in% c("seq", "div")])),
         checkboxInput('leafLegend', 'Legend', TRUE),
@@ -53,14 +53,22 @@ leafExpanders <- tagList(
             span('Variable', style='color:black'))
 )
 
-## Permanent plot inputs
-leafPPplots <- tagList(
-    checkboxInput('leafppPlotMarkers', 'Permanent Plots', TRUE),
-    conditionalPanel(
-        condition = "input.leafppPlotMarkers == true",
-        checkboxInput('leafppCluster', 'Clusters', TRUE)
-    ),
-    hr()
+## Location markesr
+leafLocations <- tagList(
+    div(style='font-size:90%',
+        radioButtons('leafPPMarks', 'Permanent Plots',
+                     choices=c('Cluster'='clusters', 'Pins'='markers', 'Hide'='hide'), inline=TRUE),
+        radioButtons('leafTPMarks', 'Transects',
+                     choices=c('Cluster'='clusters', 'Pins'='markers', 'Hide'='hide'), inline=TRUE,
+                     selected = 'hide'),
+        radioButtons('leafContMarks', 'Contours',
+                     choices=c('Cluster'='clusters', 'Pins'='markers', 'Hide'='hide'), inline=TRUE,
+                     selected='hide'),
+        radioButtons('leafOtherMarks', 'Other',
+                     choices=c('Cluster'='clusters', 'Pins'='markers','Hide'='hide'), inline=TRUE,
+                     selected='hide'),
+        hr()
+        )
 )
 
 leafOpts <- tagList(
@@ -69,7 +77,7 @@ leafOpts <- tagList(
         leafExpanders,
         leafLayers,
         leafVariable,
-        leafPPplots
+        leafLocations
     )
 )
 
