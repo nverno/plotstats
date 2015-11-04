@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Tue Oct 20 22:10:44 2015 (-0400)
-## Last-Updated: Sat Oct 31 18:14:52 2015 (-0400)
+## Last-Updated: Tue Nov  3 08:14:30 2015 (-0500)
 ##           By: Noah Peart
 ######################################################################
 
@@ -11,6 +11,7 @@ fluidPage(
     theme=shinytheme("flatly"),
     tags$head(tags$link(
         rel="stylesheet", type="text/css", href="styles.css"
+        
     ), tags$title("Moosilauke Data")),
     includeScript("www/scripts.js"),
 
