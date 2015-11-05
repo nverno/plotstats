@@ -9,10 +9,18 @@ bbpltDat11,294
 ddebugShiny11,324
 ddebugVals28,836
 
-./controllers/leaflet.R,50
-ppopFn17,555
-lleafDat23,721
-ccolorpal30,945
+./controllers/leaflet.R,216
+lleafPrefix13,392
+lleafFeature16,494
+lleafInit20,688
+lleafMarks21,746
+lleafLabelOpts24,816
+iicon.pp27,924
+iicon.tp29,1052
+iicon.cont31,1182
+ccolorpal41,1618
+lleafManip50,1953
+lleafCreate75,2728
 
 ./controllers/leaflet_layers.R,18
 lleafVals11,367
@@ -49,7 +57,7 @@ ddat_selected47,1320
 ./ggvis/colorRange/global.R,12
 ddf10,274
 
-./global.R,162
+./global.R,182
 ttree_data9,273
 llocation_data10,324
 ddataloc12,457
@@ -59,6 +67,7 @@ ttemploc15,647
 uusePlot20,803
 mmypal61,1833
 ddefaults62,1882
+mmooseView69,2176
 
 ./partials/aggregate_ui.R,45
 vvars12,410
@@ -75,12 +84,13 @@ hhotkeys13,342
 ccodeOpts19,476
 ccodePanel29,880
 
-./partials/leaflet_ui.R,108
+./partials/leaflet_ui.R,131
 lleafLayers12,314
-lleafVariable32,1247
-lleafExpanders45,1766
-lleafPPplots57,2231
-lleafOpts66,2473
+aaggChoices32,1247
+lleafVariable33,1320
+lleafExpanders45,1764
+lleafLocations57,2224
+lleafOpts74,3028
 
 ./partials/map_ui.R,17
 mmapOpts11,291
@@ -106,16 +116,30 @@ ttpSubset56,2063
 ./partials/subset_ui.R,23
 ssubsetOptions11,308
 
-./R/config.R,43
-rrequired_packages11,336
-mmissed12,398
+./partials/todo_ui.R,14
+iinfo10,276
 
-./R/prep/moose_locations.R,82
-ddatlocs10,349
-ppploc13,459
-llocs14,549
-nnumCols26,934
-ffactCols27,1003
+./R/config.R,59
+ggihubs15,532
+rrequired_packages17,556
+mmissed18,618
+
+./R/prep/label_locations.R,129
+ppopFn18,643
+pppPopFn33,1202
+ttpPopFn39,1367
+ccontPopFn45,1516
+ootherPopFn50,1630
+ootherloc58,1922
+ccontloc62,2080
+
+./R/prep/moose_locations.R,98
+ddatlocs16,606
+ppploc19,716
+llocs20,806
+nnumCols32,1191
+ffactCols33,1260
+llocs57,2102
 
 ./R/prep/pp_clean.R,156
 llocs10,323
@@ -130,16 +154,25 @@ ddat66,2824
 ppp101,4750
 ppp116,5299
 
-./R/prep/split_agg_locations.R,132
+./R/prep/split_agg_locations.R,293
 llocs11,449
 aagg20,807
-rres24,994
-kkeeps26,1088
-ppploc28,1216
-aagg39,1633
-rres41,1756
-kkeeps42,1807
-ttploc44,1921
+ppps25,1000
+rres29,1060
+kkeeps31,1153
+ppploc33,1281
+aagg44,1699
+ttps48,1853
+rres52,1912
+kkeeps53,1962
+ttploc55,2076
+ppopFn66,2487
+pppPopFn81,3046
+ttpPopFn87,3211
+ccontPopFn93,3360
+ootherPopFn98,3474
+ootherloc106,3776
+ccontloc110,3930
 
 ./R/prep/tp_clean.R,153
 llocs10,316
@@ -154,13 +187,15 @@ ttp59,2513
 ttp62,2602
 ccoords77,3182
 
-./R/setup.R,90
+./R/setup.R,126
 ppp19,543
 ttp20,587
 ppploc27,835
 ttploc28,886
-mmooseloc29,937
-pppmarks33,1082
+ootherloc29,937
+ccontloc30,994
+mmooseloc31,1052
+pppmarks35,1197
 
 ./R/utils.R,192
 ccaptureInputs11,348
@@ -186,8 +221,122 @@ ttpAgg19,634
 pppAgg22,750
 pppAgg23,843
 
-./test/blah.R,58
-ttheta11,283
-rround112,321
-ddat13,349
-iinds16,472
+./test/app.R,24
+uui3,16
+sserver7,66
+
+./test/blah.R,166
+xx10,163
+ss11,239
+ssent_token_annotator14,272
+wword_token_annotator15,326
+pparse_annotator16,380
+aa218,418
+pp19,486
+pptext20,514
+pparse2graph23,597
+
+./test/fun/animate_leaflet.R,25
+lloc6,71
+zzooms7,119
+
+./test/fun/dynamicPlots.R,108
+ddat5,53
+rrndmPlot10,250
+mmakePlotContainers14,441
+rrenderPlots28,893
+uui40,1276
+sserver57,1813
+
+./test/fun/parseTree.R,165
+pparser2graph3,126
+pparseTree15,519
+sstring31,1527
+pplot.parser239,1796
+pparser151,2210
+pparser263,2605
+pparser373,3102
+oopts87,3971
+eexpT109,4810
+
+./test/vdb/server.R,95
+cconnFile7,216
+vvdbDir8,241
+LLOGGING10,260
+llogMsg14,344
+iind35,809
+ddataTar42,983
+
+./test/vdb/server/_fns.R,684
+rrenderDataLite1,0
+rrenderData29,831
+ccogDataString44,1255
+ccogTableBodyData55,1549
+ccogTableFootFilter79,2284
+ccogTableFootHist102,2924
+ggetUnivarPlotDat108,3157
+ggetCogScatterPlotData162,5328
+ggetCogHexbinPlotData165,5411
+ggetCogScatterPlotData.data.frame168,5492
+ggetCogHexbinPlotData.data.frame180,5858
+ggetBivarPlotDat247,7660
+ggetCogICA282,8951
+ggetCogICA.data.frame285,9010
+ggetMultivarPlotDat293,9236
+ddummyPanel314,9910
+ddummyCog318,10033
+ggetPanels322,10121
+ggetPanelContent357,11162
+ggetPanelContent.rplotFn360,11245
+ggetPanelContent.ggplotFn363,11338
+ggetPanelContent.trellisFn366,11432
+ggetPanelContent.htmlwidgetFn386,11982
+
+./test/vdb/server/cogState.R,178
+ffilterState16,905
+ssortState27,1144
+ppanelLabelState38,1379
+ppanelLayoutState52,1689
+aactiveCogState63,2034
+rrelatedDisplayState72,2245
+ccdoExposedCogState82,2426
+
+./test/vdb/server/cogTable.R,75
+ccogTableNpages4,44
+ccogTableCurrentData58,1208
+ggetCurCogDat94,2085
+
+./test/vdb/server/currentDisplay.R,67
+aappHash10,311
+sselectedDisplay24,691
+ccurrentDisplay63,1788
+
+./test/vdb/server/currentDisplayData.R,363
+ddisplayListOutputData2,1
+ddisplayInformationOutputData21,700
+ppanelLayoutOutputData60,2159
+ppanelLabelListOutputData90,2979
+aactiveCogListOutputData111,3606
+rrelatedDisplayListOutputData134,4323
+ccogTableControlsOutputData157,5121
+ccogUniFilterControlsOutputData193,6303
+ccogBiFilterControlsOutputData202,6630
+ppanelPageNavOutputData210,6870
+
+./test/vdb/server/panelTable.R,38
+eexposedCogDF4,113
+ccurPage23,517
+
+./test/vdb/www/dummyData.R,234
+ccurrentDisplay10,186
+ccogState17,279
+ccogDFtable29,815
+bbtnLookup35,863
+iiconLookup36,976
+sstate2template38,1239
+iiris252,1581
+ddummyPanel58,1763
+ccogShow60,1852
+ppanelTableContent62,1952
+aa72,2144
+aa105,3182
