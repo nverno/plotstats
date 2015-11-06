@@ -39,29 +39,35 @@ agg <- function(index, ...) {
 ## Get treemap data
 res <- treemap(dat, index=indexList, vSize='i', vColor='index',
                type="value", fun.aggregate = "agg",
-               income=dat[["income"]], expense=dat[["expense"]])  # ... args get passed to fun.aggregate
+               palette = 'RdYlBu',
+               income=dat[["income"]],
+               expense=dat[["expense"]])  # ... args get passed to fun.aggregate
 
 ## Now use ggplot to make the bargraph
 ## The useful variables: level (corresponds to indexList), vSize (bar size), vColor(SIR)
 ## Create a label variable that is the value of the variable in indexList at each level
 out <- res$tm
 out$label <- out[cbind(1:nrow(out), out$level)]
-out <- out[,c("vSize", "vColor", "level", "color", "label")]  # just keep good stuff
-out <- with(out, out[order(level, label),])
+out$label <- with(out, ifelse(level==4, substring(label, 1, 1), label))  # shorten labels
+out$level <- factor(out$level, levels=sort(unique(out$level), TRUE))     # factor levels
 
-## Time to find label positions: function to find x-positions for each level
-## y will just be the level
-out$xlab <- unlist(lapply(split(out$vSize, out$level), function(x) cumsum(x) - x/2))
+## Time to find label positions, scale to [0, 1] first
+## x-value is cumsum by group,  y will just be the level
+out$xlab <- out$vSize / max(aggregate(vSize ~ level, data=out, sum)$vSize)
+split(out$xlab, out$level) <- lapply(split(out$xlab, out$level), function(x) cumsum(x) - x/2)
 
-## Plot
-ggplot(out, aes(x=level, y=vSize, fill=interaction(level, label))) +
-  geom_bar(stat='identity', position='fill')
-
-
-setkey(out, level)
-
-
+## Make plot with gradient color for SIR
 library(ggplot2)
-
-X = data.table(x=c(1,1,1,2,2,5,6), y=1:7, key="x")
-Y = data.table(x=c(2,6), z=letters[2:1], key="x")
+ggplot(out, aes(x=level, y=vSize, fill=vColor, group=interaction(level, label))) +
+  geom_bar(stat='identity', position='fill') +  # add another for black rectangles but not legend
+  geom_bar(stat='identity', position='fill', color="black", show_guide=FALSE) +
+  geom_text(data=out, aes(x=level, y=xlab, label=label, ymin=0, ymax=1), size=6, font=2,
+            inherit.aes=FALSE) +
+  coord_flip() +
+  scale_fill_gradientn(colours = c("white", "red")) +
+  theme_minimal() +  # Then just some formatting 
+  xlab("") + ylab("") +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
