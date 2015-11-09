@@ -12,5 +12,5 @@
   - [X] add markers for transect plots
   - [X] markers for contours/other sampling locations
   - [ ] add paths for transects
-  - [ ] Make markers interactive
+  - [ ] Make markers interactive (click events can trigger reactives)
     

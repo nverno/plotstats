@@ -11,6 +11,11 @@ Need to add [[http://shiny.rstudio.com/gallery/][example]] plots for the various
    
 ** [[file:3D.org][3D Graphics]]
 
+** Treemaps
+
+** Graphs
+   - need to decide how to convert to tree structure
+     
 * TODO Basic subsetting panel [0/2]
   - [ ] Fix the summary of transect plots
   - [ ] Possible to improve the subsetting options (something like shinyTree for TPLOTS)?
