@@ -3,7 +3,7 @@
 ## Description: 
 ## Author: Noah Peart
 ## Created: Wed Oct 21 00:32:08 2015 (-0400)
-## Last-Updated: Mon Nov  2 15:37:13 2015 (-0500)
+## Last-Updated: Sat Nov 21 11:36:09 2015 (-0500)
 ##           By: Noah Peart
 ######################################################################
 tree_data <- c('pp'="pp.csv", 'tp'="transect.csv")
@@ -31,7 +31,7 @@ require(markdown)     # includeMarkdown
 require(shinyAce)     #!
 
 ## Data
-require(xlsx)         # read.xlsx2 for GPS locs
+## require(xlsx)         # read.xlsx2 for GPS locs
 require(data.table)
 require(plyr)
 require(dplyr)
@@ -42,7 +42,7 @@ library(ggvis)
 require(DT)
 
 ## Mapping
-require(ggmap)
+## require(ggmap)
 require(googleVis)
 require(leaflet)
 
